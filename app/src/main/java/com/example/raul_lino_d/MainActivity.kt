@@ -1,6 +1,7 @@
 package com.example.raul_lino_d
 
 import android.os.Bundle
+import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
@@ -8,6 +9,8 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.raul_lino_d.databinding.ActivityMainBinding
+import org.json.JSONArray
+import org.json.JSONObject
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,5 +31,29 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard, R.id.navigation_notifications))
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+
+
+        val jsonData=applicationContext.resources.openRawResource(
+            applicationContext.resources.getIdentifier(
+                "Dados",
+                "raw" ,applicationContext.packageName
+            )
+        ).bufferedReader().use{it.readText()}
+
+        val outputJsonString=JSONObject(jsonData)
+
+
+        val dados = outputJsonString.getJSONArray("dados") as JSONArray
+        for (i in 0 until dados.length()){
+            //val id = posts.getJSONObject(i).get("id")
+            val nome = dados.getJSONObject(i).get("localizacao")
+
+            binding.teste.text = "$nome"
+
+        }
+
+
+
     }
 }
