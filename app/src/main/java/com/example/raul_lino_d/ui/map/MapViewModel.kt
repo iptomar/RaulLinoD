@@ -1,13 +1,13 @@
-package com.example.raul_lino_d.ui.notifications
+package com.example.raul_lino_d.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class NotificationsViewModel : ViewModel() {
+class MapViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
-        value = "This is notifications Fragment"
+        value = "This is map Fragment"
     }
     val text: LiveData<String> = _text
 }
