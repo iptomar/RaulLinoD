@@ -26,3 +26,7 @@ app/.idea/
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+.idea/gradle.xml
+.gradle/7.5/checksums/checksums.lock
+.gradle/7.5/checksums/checksums.lock
+.idea/gradle.xml
