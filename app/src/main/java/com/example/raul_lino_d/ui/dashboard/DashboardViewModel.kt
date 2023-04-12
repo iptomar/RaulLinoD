@@ -1,10 +1,10 @@
-package com.example.raul_lino_d.ui.home
+package com.example.raul_lino_d.ui.dashboard
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-class HomeViewModel : ViewModel() {
+class DashboardViewModel : ViewModel() {
 
     private val _text = MutableLiveData<String>().apply {
         value = "This is home Fragment"
