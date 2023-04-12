@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         val jsonData=applicationContext.resources.openRawResource(
             applicationContext.resources.getIdentifier(
-                "Dados",
+                "dados",
                 "raw" ,applicationContext.packageName
             )
         ).bufferedReader().use{it.readText()}
@@ -49,7 +49,8 @@ class MainActivity : AppCompatActivity() {
             //val id = posts.getJSONObject(i).get("id")
             val nome = dados.getJSONObject(i).get("localizacao")
 
-            binding.teste.text = "$nome"
+        //código para colocar as variaveis no sitio
+        // binding.teste.text = "$nome"
 
         }
 
