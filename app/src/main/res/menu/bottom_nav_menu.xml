@@ -11,7 +11,7 @@
         android:title="@string/title_dashboard" />
 
     <item
-        android:id="@+id/navigation_notifications"
+        android:id="@+id/navigation_map"
         android:icon="@drawable/icon_mapa"
-        android:title="@string/title_notifications" />
+        android:title="@string/title_map" />
 </menu>
