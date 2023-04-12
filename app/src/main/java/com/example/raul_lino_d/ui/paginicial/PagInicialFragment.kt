@@ -1,4 +1,4 @@
-package com.example.raul_lino_d.ui.dashboard
+package com.example.raul_lino_d.ui.paginicial
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.raul_lino_d.databinding.FragmentDashboardBinding
+import com.example.raul_lino_d.databinding.FragmentPaginicialBinding
 
-class DashboardFragment : Fragment() {
+class PagInicialFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentPaginicialBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -22,15 +22,14 @@ class DashboardFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val pagInicialViewModel =
+                ViewModelProvider(this).get(PagInicialViewModel::class.java)
 
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentPaginicialBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+        pagInicialViewModel.text.observe(viewLifecycleOwner) {
         }
         return root
     }
