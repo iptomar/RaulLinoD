@@ -1,21 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment">
-    <TextView
-        android:id="@+id/text_dashboard"
+    tools:context=".ui.paginicial.PagInicialFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginTop="40dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="ITINERARIO"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="50sp" />
+        <TextView
+            android:id="@+id/text_dashboard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="RAUL LINO"
+            android:textAlignment="textStart"
+            android:textColor="#078C6B"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFD683" />
+
+    <TextView
+        android:id="@+id/text_dashboard3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:fontFamily="@font/raullinofonte"
+        android:text="NOTA BIOGRÁFICA"
+        android:textAlignment="textStart"
+        android:textColor="#272133"
+        android:textSize="20sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="210dp"
+            android:layout_height="170dp"
+            android:layout_marginStart="40dp"
+            app:srcCompat="@drawable/raullino" />
+
+        <TextView
+            android:id="@+id/text_dashboard4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="sans-serif"
+            android:text="Nome completo Raul Lino da Silva
+Nascimento- 21 de Novembro de 1879 Lisboa            Morte- 13 de julho de 1974 (94 anos) Lisboa"
+            android:textFontWeight="500"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/text_dashboard5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="sans-serif"
+            android:text="Foi uma personalidade única no que se refere ao panorama das artes em Portugal, muito devido ao facto de ter conseguido articular a tradição portuguesa com as inovadoras correntes europeias do início do séc.XX.[2]Com 70 anos de atividade profissional, Lino é autor de mais de 700 obras. Também é importante referir que apesar do seu leque de projetos, ele também foi um homem com uma vasta obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+            android:textFontWeight="500"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="17sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"/>
+</LinearLayout>
