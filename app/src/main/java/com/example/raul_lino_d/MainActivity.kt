@@ -36,18 +36,22 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        requestPermissionsIfNecessary(arrayOf(
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_WIFI_STATE,
-            Manifest.permission.INTERNET,
-            Manifest.permission.ACCESS_NETWORK_STATE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE,
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ))
+        requestPermissionsIfNecessary(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_WIFI_STATE,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE
+            )
+        )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.teste.text = buscarDados("coordenadas") as CharSequence?
 
         val navView: BottomNavigationView = binding.navView
 
@@ -56,30 +60,31 @@ class MainActivity : AppCompatActivity() {
         // menu should be considered as top level destinations.
         navView.setupWithNavController(navController)
 
-
-
-        val jsonData=applicationContext.resources.openRawResource(
+    }
+    fun buscarDados( Dados: String ): Any {
+        val jsonData = applicationContext.resources.openRawResource(
             applicationContext.resources.getIdentifier(
                 "dados",
-                "raw" ,applicationContext.packageName
+                "raw", applicationContext.packageName
             )
-        ).bufferedReader().use{it.readText()}
+        ).bufferedReader().use { it.readText() }
 
-        val outputJsonString=JSONObject(jsonData)
+        val outputJsonString = JSONObject(jsonData)
+
+        var nomes = ""
 
 
         val dados = outputJsonString.getJSONArray("dados") as JSONArray
-        for (i in 0 until dados.length()){
-            //val id = posts.getJSONObject(i).get("id")
-            val nome = dados.getJSONObject(i).get("localizacao")
+        for (i in 0 until dados.length()) {
 
-        //código para colocar as variaveis no sitio
-        // binding.teste.text = "$nome"
+             nomes += dados.getJSONObject(i).get(Dados)
+
+            //código para colocar as variaveis no sitio
+            // binding.teste.text = "$nome"
 
         }
 
-
-
+        return nomes
     }
 
     private fun requestPermissionsIfNecessary(permissions:Array<out String>) {
