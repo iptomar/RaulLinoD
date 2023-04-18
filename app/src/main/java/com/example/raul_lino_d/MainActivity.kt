@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.teste.text = buscarDados("coordenadas") as CharSequence?
+
 
         val navView: BottomNavigationView = binding.navView
 
@@ -61,31 +61,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
     }
-    fun buscarDados( Dados: String ): Any {
-        val jsonData = applicationContext.resources.openRawResource(
-            applicationContext.resources.getIdentifier(
-                "dados",
-                "raw", applicationContext.packageName
-            )
-        ).bufferedReader().use { it.readText() }
 
-        val outputJsonString = JSONObject(jsonData)
-
-        var nomes = ""
-
-
-        val dados = outputJsonString.getJSONArray("dados") as JSONArray
-        for (i in 0 until dados.length()) {
-
-             nomes += dados.getJSONObject(i).get(Dados)
-
-            //código para colocar as variaveis no sitio
-            // binding.teste.text = "$nome"
-
-        }
-
-        return nomes
-    }
 
     private fun requestPermissionsIfNecessary(permissions:Array<out String>) {
         val permissionsToRequest = ArrayList<String>();
@@ -105,5 +81,21 @@ class MainActivity : AppCompatActivity() {
 
     public fun getMain(): MainActivity {
         return this
+    }
+
+    public fun buscarDados( Dados: String , id : Int ): Any {
+        val jsonData = applicationContext.resources.openRawResource(
+            applicationContext.resources.getIdentifier(
+                "dados",
+                "raw", applicationContext.packageName
+            )
+        ).bufferedReader().use { it.readText() }
+
+        val outputJsonString = JSONObject(jsonData)
+        val dados = outputJsonString.getJSONArray("dados") as JSONArray
+
+        var DadoFinal = dados.getJSONObject(id).get(Dados)
+
+        return DadoFinal
     }
 }

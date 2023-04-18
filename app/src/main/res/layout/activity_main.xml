@@ -32,13 +32,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:navGraph="@navigation/mobile_navigation" />
 
-    <TextView
-        android:id="@+id/teste"
-        android:layout_width="283dp"
-        android:layout_height="234dp"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="59dp"
-        tools:layout_editor_absoluteY="92dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
