@@ -52,9 +52,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="40dp"
         android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/raullinofonte"
-        android:text="NOTA BIOGRÁFICA"
+        android:text="O INICIO"
         android:textAlignment="textStart"
         android:textColor="#272133"
         android:textSize="20sp" />
@@ -62,12 +63,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="210dp"
-            android:layout_height="170dp"
-            android:layout_marginStart="40dp"
-            app:srcCompat="@drawable/raullino" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="115dp"
+        android:layout_height="115dp"
+        android:layout_marginStart="40dp"
+        app:srcCompat="@drawable/arco" />
 
         <TextView
             android:id="@+id/text_dashboard4"
@@ -76,8 +77,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="sans-serif"
-            android:text="Nome completo Raul Lino da Silva
-Nascimento- 21 de Novembro de 1879 Lisboa            Morte- 13 de julho de 1974 (94 anos) Lisboa"
+            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
             android:textFontWeight="500"
             android:textAlignment="textStart"
             android:textColor="#272133"
@@ -88,23 +88,49 @@ Nascimento- 21 de Novembro de 1879 Lisboa            Morte- 13 de julho de 1974 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_marginStart="40dp"
+            app:srcCompat="@drawable/vertical" />
 
         <TextView
             android:id="@+id/text_dashboard5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="sans-serif"
-            android:text="Foi uma personalidade única no que se refere ao panorama das artes em Portugal, muito devido ao facto de ter conseguido articular a tradição portuguesa com as inovadoras correntes europeias do início do séc.XX.[2]Com 70 anos de atividade profissional, Lino é autor de mais de 700 obras. Também é importante referir que apesar do seu leque de projetos, ele também foi um homem com uma vasta obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
             android:textFontWeight="500"
             android:textAlignment="textStart"
             android:textColor="#272133"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="115dp"
+            android:layout_height="115dp"
+            android:layout_marginStart="40dp"
+            app:srcCompat="@drawable/janela" />
+
+        <TextView
+            android:id="@+id/text_dashboard6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:fontFamily="sans-serif"
+            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+            android:textFontWeight="500"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="14sp" />
+    </LinearLayout>
 </LinearLayout>
