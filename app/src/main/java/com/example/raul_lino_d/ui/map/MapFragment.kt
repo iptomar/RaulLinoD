@@ -61,8 +61,8 @@ class MapFragment : Fragment() {
         var compassOverlay = CompassOverlay(parent, map)
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
-        var dados : JSONArray = parent.buscarDados("coordenadas" , 1) as JSONArray
-
+        for (i in 1 until 18){
+        var dados : JSONArray = parent.buscarDados("coordenadas" , i) as JSONArray
         var point = GeoPoint(dados.get(0) as Double, dados.get(1)as Double)
         var startMarker = Marker(map)
         startMarker.position = point
@@ -70,7 +70,7 @@ class MapFragment : Fragment() {
         map.overlays.add(startMarker)
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
-        }, 1000) // espera 1 Segundo para centrar o mapa
+        }, 1000) }// espera 1 Segundo para centrar o mapa
 
 
         return root
