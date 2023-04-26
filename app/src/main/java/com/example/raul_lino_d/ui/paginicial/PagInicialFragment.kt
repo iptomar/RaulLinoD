@@ -28,6 +28,7 @@ class PagInicialFragment : Fragment() {
         _binding = FragmentPaginicialBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        val textView: TextView = binding.textDashboard
         pagInicialViewModel.text.observe(viewLifecycleOwner) {
         }
         return root
