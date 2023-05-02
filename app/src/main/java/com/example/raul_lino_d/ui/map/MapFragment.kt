@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -48,8 +49,7 @@ class MapFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val mapViewModel =
-                ViewModelProvider(this).get(MapViewModel::class.java)
+        ViewModelProvider(this).get(MapViewModel::class.java)
 
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
@@ -69,9 +69,12 @@ class MapFragment : Fragment() {
         var dados : JSONArray = parent.buscarDados("coordenadas" , i) as JSONArray
         var point = GeoPoint(dados.get(0) as Double, dados.get(1)as Double)
         var startMarker = Marker(map)
+        var texto =  dados.get(0) as String
+            view?.findViewById<TextView>(R.id.TextoPin)?.setText(texto)
+
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            startMarker.infoWindow = MarkerWindow(map, parent)
+        startMarker.infoWindow = MarkerWindow(map, parent)
         map.overlays.add(startMarker)
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
@@ -88,11 +91,9 @@ class MapFragment : Fragment() {
         }
         override fun onOpen(item: Any?) {
             closeAllInfoWindowsOn(mapView)
-            val olaButton = mView.findViewById<Button>(R.id.ola_button)
-            olaButton.setOnClickListener {
-                Toast.makeText(parent,"Ola IPT", Toast.LENGTH_LONG).show()
-            }
-            mView.setOnClickListener {
+            val texto = mView.findViewById<TextView>(R.id.TextoPin)
+
+            texto.setOnClickListener {
                 close()
             }
         }
