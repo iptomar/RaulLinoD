@@ -30,3 +30,5 @@ hs_err_pid*
 .gradle/7.5/checksums/checksums.lock
 .gradle/7.5/checksums/checksums.lock
 .idea/gradle.xml
+local.properties
+local.properties
