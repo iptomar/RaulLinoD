@@ -9,6 +9,8 @@
     android:orientation="vertical">
 
 
+
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -83,7 +85,7 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/raullinofonte"
-                android:text="ASSEMBLEIA DE ABRANTES"
+                android:text=""
                 android:textAlignment="textStart"
                 android:textColor="#272133"
                 android:textSize="20sp" />
@@ -104,8 +106,8 @@
 
         <ImageView
             android:id="@+id/imageView"
-            android:layout_width="400dp"
-            android:layout_height="300dp"
+            android:layout_width="300dp"
+            android:layout_height="200dp"
             android:layout_gravity="center"
             android:layout_marginBottom="5dp" />
 

@@ -2,13 +2,14 @@ package com.example.raul_lino_d.ui.map
 
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
-import java.io.File
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,6 +26,10 @@ class HistoryFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private lateinit var imageIV: ImageView // declare ImageView variable
+    private lateinit var titleText: TextView // declare TextView variable
+    private lateinit var parent: MainActivity
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +41,33 @@ class HistoryFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
+
+
+
+        parent = (activity as MainActivity).getMain()
+
+        val buildingId = arguments?.getInt("building_id")
+        val value = arguments!!.getInt("id")
+
+
+        var titulo : String = value?.let { parent.buscarDados("titulo" , it) } as String
+        var descricao : String = value?.let { parent.buscarDados("info" , it) } as String
+
+
+        val textTitulo = view?.findViewById<TextView>(R.id.text_history_title)
+        if (textTitulo != null) {
+            textTitulo.text = "ola"
+        }
+
+        val textDescricao = view?.findViewById<TextView>(R.id.text_dashboard4)
+        if (textDescricao != null) {
+            textDescricao.text = descricao
+        }
+
+
+
 
         val imgInputStream = requireContext().assets.open("images/folder_1/img_11.jpg")
 
