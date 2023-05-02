@@ -8,6 +8,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.raul_lino_d.MainActivity
@@ -21,6 +23,8 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.compass.CompassOverlay
+import org.osmdroid.views.overlay.infowindow.InfoWindow
+import org.osmdroid.views.overlay.infowindow.InfoWindow.closeAllInfoWindowsOn
 
 
 class MapFragment : Fragment() {
@@ -67,6 +71,7 @@ class MapFragment : Fragment() {
         var startMarker = Marker(map)
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            startMarker.infoWindow = MarkerWindow(map, parent)
         map.overlays.add(startMarker)
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
@@ -74,6 +79,26 @@ class MapFragment : Fragment() {
 
 
         return root
+    }
+
+    class MarkerWindow: InfoWindow {
+        private lateinit var parent: MainActivity
+        constructor(mapView: MapView, parent: MainActivity):super(R.layout.info_window, mapView) {
+            this.parent = parent
+        }
+        override fun onOpen(item: Any?) {
+            closeAllInfoWindowsOn(mapView)
+            val olaButton = mView.findViewById<Button>(R.id.ola_button)
+            olaButton.setOnClickListener {
+                Toast.makeText(parent,"Ola IPT", Toast.LENGTH_LONG).show()
+            }
+            mView.setOnClickListener {
+                close()
+            }
+        }
+        override fun onClose() {
+// para usar caso seja necessário
+        }
     }
 
     override fun onDestroyView() {
