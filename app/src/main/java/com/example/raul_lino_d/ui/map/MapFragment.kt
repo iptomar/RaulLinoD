@@ -1,13 +1,18 @@
 package com.example.raul_lino_d.ui.map
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.graphics.drawable.ScaleDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.raul_lino_d.MainActivity
@@ -67,7 +72,26 @@ class MapFragment : Fragment() {
         var startMarker = Marker(map)
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            //val d = ResourcesCompat.getDrawable(resources, R.drawable.icon_localizacao_verde, null)
+            //val dr = ScaleDrawable(d, 1, 30.0f, 30.0f)
+            //val bitmap: Bitmap = (d as BitmapDrawable).bitmap
+
+            val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.icon_localizacao_verde)
+
+            val dr: Drawable = BitmapDrawable(
+                resources,
+                bitmap?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        (30.0f * resources.displayMetrics.density).toInt(),
+                        (30.0f * resources.displayMetrics.density).toInt(),
+                        true
+                    )
+                }
+            )
+        startMarker.icon = dr
         map.overlays.add(startMarker)
+        map.invalidate();
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
         }, 1000) }// espera 1 Segundo para centrar o mapa
