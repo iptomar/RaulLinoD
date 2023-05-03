@@ -1,7 +1,12 @@
 package com.example.raul_lino_d.ui.map
 
 
+import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationListener
+import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -9,14 +14,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat
+import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
 import com.example.raul_lino_d.databinding.FragmentMapBinding
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
@@ -25,12 +28,12 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.compass.CompassOverlay
 
-class MapFragment : Fragment() {
+class MapFragment : Fragment(), LocationListener {
 
     private lateinit var parent: MainActivity
     private var _binding: FragmentMapBinding? = null
     private lateinit var map : MapView
-    lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var locationManager: LocationManager
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -44,9 +47,12 @@ class MapFragment : Fragment() {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(parent)
-        fetchLocation()
-        Configuration.getInstance().userAgentValue = parent.getPackageName()
+        locationManager = parent.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        if ((ContextCompat.checkSelfPermission(parent, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            requestPermissions( arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 2)
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 5f, this)
+        Configuration.getInstance().userAgentValue = parent.packageName
         map = root.findViewById(R.id.map)
         map.setTileSource(TileSourceFactory.MAPNIK)
         map.controller.zoomTo(17.0)
@@ -71,20 +77,18 @@ class MapFragment : Fragment() {
         _binding = null
     }
 
-    private fun fetchLocation() {
-        val task = fusedLocationProviderClient.lastLocation
-        if(ActivityCompat.checkSelfPermission(parent, android.Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(parent, android.Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(parent, arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), 101)
-            return
-        }
-        task.addOnSuccessListener {
-            if(it != null) {
-                Log.e("Lat", it.latitude.toString())
-            } else {
-                Log.e("teste", "123")
+    override fun onLocationChanged(location: Location) {
+        Log.e("Lat", location.latitude.toString())
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == 2) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(parent, "Permission Granted", Toast.LENGTH_SHORT).show()
+            }
+            else {
+                Toast.makeText(parent, "Permission Denied", Toast.LENGTH_SHORT).show()
             }
         }
     }
