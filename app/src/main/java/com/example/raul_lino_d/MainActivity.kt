@@ -4,24 +4,16 @@ package com.example.raul_lino_d
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.raul_lino_d.databinding.ActivityMainBinding
 import org.json.JSONArray
 import org.json.JSONObject
-import com.example.raul_lino_d.ui.map.MapFragment
-import java.io.InputStream
 
 
 class MainActivity : AppCompatActivity() {
@@ -83,7 +75,7 @@ class MainActivity : AppCompatActivity() {
         return this
     }
 
-    public fun buscarDados( Dados: String , id : Int ): Any {
+    public fun buscarDados(Dados: String, id: Int): Any {
         val jsonData = applicationContext.resources.openRawResource(
             applicationContext.resources.getIdentifier(
                 "dados",

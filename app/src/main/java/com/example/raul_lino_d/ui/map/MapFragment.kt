@@ -4,7 +4,6 @@ package com.example.raul_lino_d.ui.map
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,9 +39,9 @@ class MapFragment : Fragment() {
 
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?,
     ): View {
         val mapViewModel =
                 ViewModelProvider(this).get(MapViewModel::class.java)
@@ -68,6 +67,30 @@ class MapFragment : Fragment() {
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(startMarker)
+
+            //clicar no pino
+            startMarker.setOnMarkerClickListener { marker, mapView ->
+                // Create a new instance of your fragment
+                val fragment = HistoryFragment()
+
+                val args = Bundle()
+                args.putInt("id", 2)
+                fragment.setArguments(args)
+
+                //para nao dar erro ao clicar nos botões
+                val transaction = parentFragmentManager.beginTransaction() // começa uma transação do FragmentManager
+                transaction.replace(R.id.nav_host_fragment_activity_main, fragment) // substitui o fragment atual pelo novo fragment
+                transaction.setReorderingAllowed(true) // permite que o back stack seja restaurado como uma operação atômica (é necessário para usar addToBackStack)
+                transaction.addToBackStack(null) // adiciona a transação ao back stack, com um nome nulo
+                transaction.commit() // confirma a transação
+
+
+
+                // Return true to indicate that the click event has been handled
+                true
+            }
+
+
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
         }, 1000) }// espera 1 Segundo para centrar o mapa
