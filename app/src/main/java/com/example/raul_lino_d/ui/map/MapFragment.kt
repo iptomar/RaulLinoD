@@ -74,7 +74,7 @@ class MapFragment : Fragment() {
                 val fragment = HistoryFragment()
 
                 val args = Bundle()
-                args.putInt("id", 2)
+                args.putInt("id", i)
                 fragment.setArguments(args)
 
                 //para nao dar erro ao clicar nos botões
@@ -103,4 +103,5 @@ class MapFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
 }

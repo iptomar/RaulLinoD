@@ -27,6 +27,7 @@ class HistoryFragment : Fragment() {
     private var param2: String? = null
     private lateinit var imageIV: ImageView // declare ImageView variable
     private lateinit var titleText: TextView // declare TextView variable
+    private lateinit var desc: TextView // declare TextView variable
     private lateinit var parent: MainActivity
 
 
@@ -46,42 +47,42 @@ class HistoryFragment : Fragment() {
 
 
 
+
+
+
+
+
+
+        // Inflate the layout for this fragment
+        val view = inflater.inflate(R.layout.fragment_history, container, false)
+        imageIV = view.findViewById(R.id.imageView) // find ImageView by ID from the inflated view
+        titleText = view.findViewById(R.id.text_history_title) // find TextView by ID from the inflated view
+        desc= view.findViewById(R.id.text_dashboard4)
+
         parent = (activity as MainActivity).getMain()
 
-        val buildingId = arguments?.getInt("building_id")
+        //get cache id of building
         val value = arguments!!.getInt("id")
+        val folderNumber = "folder_${value}"
+        val imgNumber = "img_${value}"
+        val imgFilePath = "images/${folderNumber}/${imgNumber}0.jpg"
+        val imgInputStream = requireContext().assets.open(imgFilePath)
 
 
         var titulo : String = value?.let { parent.buscarDados("titulo" , it) } as String
         var descricao : String = value?.let { parent.buscarDados("info" , it) } as String
 
 
-        val textTitulo = view?.findViewById<TextView>(R.id.text_history_title)
-        if (textTitulo != null) {
-            textTitulo.text = "ola"
-        }
+        titleText.text = titulo
+        desc.text = descricao
 
-        val textDescricao = view?.findViewById<TextView>(R.id.text_dashboard4)
-        if (textDescricao != null) {
-            textDescricao.text = descricao
-        }
-
-
-
-
-        val imgInputStream = requireContext().assets.open("images/folder_1/img_11.jpg")
-
-        // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_history, container, false)
-        imageIV = view.findViewById(R.id.imageView) // find ImageView by ID from the inflated view
-        // on below line we are checking if the image file exist or not.
-
-        // on below line we are creating an image bitmap variable
-        // and adding a bitmap to it from image file.
+        
         val imgBitmap = BitmapFactory.decodeStream(imgInputStream)
 
         // on below line we are setting bitmap to our image view.
         imageIV.setImageBitmap(imgBitmap)
         return view
     }
+
+
 }
