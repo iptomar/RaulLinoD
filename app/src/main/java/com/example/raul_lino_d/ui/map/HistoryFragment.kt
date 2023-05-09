@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
 
@@ -61,6 +63,12 @@ class HistoryFragment : Fragment() {
 
         parent = (activity as MainActivity).getMain()
 
+
+        val myButton = view.findViewById<ImageButton>(R.id.my_button)
+        myButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
         //get cache id of building
         val value = arguments!!.getInt("id")
         val folderNumber = "folder_${value}"
@@ -76,12 +84,17 @@ class HistoryFragment : Fragment() {
         titleText.text = titulo
         desc.text = descricao
 
-        
+
         val imgBitmap = BitmapFactory.decodeStream(imgInputStream)
 
         // on below line we are setting bitmap to our image view.
         imageIV.setImageBitmap(imgBitmap)
         return view
+    }
+    fun myButtonClick(view: View) {
+        // Handle button click here
+        // For example, to go back to the map fragment:
+        findNavController().popBackStack()
     }
 
 

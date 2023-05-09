@@ -68,15 +68,15 @@
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="10dp"
                 android:fontFamily="@font/raullinofonte"
-                android:text="exemplo"
+                android:text=""
                 android:textAlignment="textStart"
                 android:textColor="#272133"
                 android:textSize="20sp" />
 
             <ImageButton
                 android:id="@+id/my_button"
-                android:layout_width="290dp"
-                android:layout_height="49dp"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
                 android:layout_margin="8dp"
                 android:background="@null"
                 android:contentDescription="Botão para apagar"
