@@ -34,7 +34,7 @@ class MapFragment : Fragment(), LocationListener {
     private var _binding: FragmentMapBinding? = null
     private lateinit var map : MapView
     private lateinit var locationManager: LocationManager
-
+    lateinit var startMarker: Marker
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
@@ -61,14 +61,10 @@ class MapFragment : Fragment(), LocationListener {
         val compassOverlay = CompassOverlay(parent, map)
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
-        val point = GeoPoint(39.60068, -8.38967)
-        val startMarker = Marker(map)
-        startMarker.position = point
+        startMarker = Marker(map)
+        startMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(startMarker)
-        Handler(Looper.getMainLooper()).postDelayed({
-            map.controller.setCenter(point)
-        }, 1000) // espera 1 Segundo para centrar o mapa
         return root
     }
 
@@ -78,7 +74,10 @@ class MapFragment : Fragment(), LocationListener {
     }
 
     override fun onLocationChanged(location: Location) {
-        Log.e("Lat", location.latitude.toString())
+        val point = GeoPoint(location.latitude, location.longitude)
+        startMarker.position = point
+        map.overlays.add(startMarker)
+        map.controller.setCenter(point)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
