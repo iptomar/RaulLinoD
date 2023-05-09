@@ -72,23 +72,18 @@ class MapFragment : Fragment() {
         var startMarker = Marker(map)
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            //val d = ResourcesCompat.getDrawable(resources, R.drawable.icon_localizacao_verde, null)
-            //val dr = ScaleDrawable(d, 1, 30.0f, 30.0f)
-            //val bitmap: Bitmap = (d as BitmapDrawable).bitmap
-
-            val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.icon_localizacao_verde)
-
-            val dr: Drawable = BitmapDrawable(
-                resources,
-                bitmap?.let {
-                    Bitmap.createScaledBitmap(
-                        it,
-                        (30.0f * resources.displayMetrics.density).toInt(),
-                        (30.0f * resources.displayMetrics.density).toInt(),
-                        true
-                    )
-                }
-            )
+        val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
+        val dr: Drawable = BitmapDrawable(
+            resources,
+            bitmap?.let {
+                Bitmap.createScaledBitmap(
+                     it,
+                     (48.0f * resources.displayMetrics.density).toInt(),
+                     (48.0f * resources.displayMetrics.density).toInt(),
+                     true
+                )
+            }
+        )
         startMarker.icon = dr
         map.overlays.add(startMarker)
         map.invalidate();
