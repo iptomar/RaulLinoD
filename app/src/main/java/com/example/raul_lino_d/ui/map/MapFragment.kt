@@ -66,19 +66,22 @@ class MapFragment : Fragment() {
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
         for (i in 1 until 18){
-        var dados : JSONArray = parent.buscarDados("coordenadas" , i) as JSONArray
-        var point = GeoPoint(dados.get(0) as Double, dados.get(1)as Double)
+        var coord : JSONArray = parent.buscarDados("coordenadas" , i) as JSONArray
+        var point = GeoPoint(coord.get(0) as Double, coord.get(1)as Double)
         var startMarker = Marker(map)
-        var texto =  dados.get(0) as String
-            view?.findViewById<TextView>(R.id.TextoPin)?.setText(texto)
-
+        var texto : CharSequence = parent.buscarDados("titulo" , i) as CharSequence
+        println(texto)
+        //linha 75 n cumpre a sua função
+        view?.findViewById<TextView>(R.id.TextoPin)?.text = texto
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         startMarker.infoWindow = MarkerWindow(map, parent)
         map.overlays.add(startMarker)
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
-        }, 1000) }// espera 1 Segundo para centrar o mapa
+        }, 1000)
+
+        }// espera 1 Segundo para centrar o mapa
 
 
         return root
