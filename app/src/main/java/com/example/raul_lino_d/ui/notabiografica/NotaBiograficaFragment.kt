@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.raul_lino_d.databinding.FragmentDashboardBinding
 
-class DashboardFragment : Fragment() {
+class NotaBiograficaFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null
 
@@ -22,14 +22,14 @@ class DashboardFragment : Fragment() {
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View {
-        val dashboardViewModel =
-                ViewModelProvider(this).get(DashboardViewModel::class.java)
+        val NotaBiograficaViewModel =
+                ViewModelProvider(this).get(NotaBiograficaViewModel::class.java)
 
         _binding = FragmentDashboardBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val textView: TextView = binding.textDashboard
-        dashboardViewModel.text.observe(viewLifecycleOwner) {
+        NotaBiograficaViewModel.text.observe(viewLifecycleOwner) {
         }
         return root
     }
