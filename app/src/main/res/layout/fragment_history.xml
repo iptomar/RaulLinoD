@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.paginicial.PagInicialFragment"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="ITINERARIO"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="50sp" />
+        <TextView
+            android:id="@+id/text_dashboard2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="100dp"
+            android:layout_marginEnd="8dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="RAUL LINO"
+            android:textAlignment="textStart"
+            android:textColor="#078C6B"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="35dp"
+        android:background="#FFD683" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingEnd="5dp"
+        android:background="@color/cream"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/text_history_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/raullinofonte"
+                android:text=""
+                android:textAlignment="textStart"
+                android:textColor="#272133"
+                android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/my_button"
+                android:layout_width="wrap_content"
+                android:layout_height="55dp"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:contentDescription="Botão para apagar"
+                android:scaleType="fitCenter"
+                android:src="@drawable/icon_apagar"
+                android:textSize="16sp" />
+
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="5dp" />
+
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            >
+
+            <TextView
+                android:id="@+id/text_dashboard4"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif"
+                android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+                android:textAlignment="textStart"
+                android:textColor="#272133"
+                android:textFontWeight="500"
+                android:textSize="14sp"
+                tools:ignore="ExtraText" />
+
+        </ScrollView>
+
+
+    </LinearLayout>
+
+</LinearLayout>
