@@ -65,6 +65,7 @@ class MapFragment : Fragment() {
         var compassOverlay = CompassOverlay(parent, map)
         compassOverlay.enableCompass()
         map.overlays.add(compassOverlay)
+
         for (i in 1 until 18){
         var coord : JSONArray = parent.buscarDados("coordenadas" , i) as JSONArray
         var point = GeoPoint(coord.get(0) as Double, coord.get(1)as Double)
@@ -72,10 +73,15 @@ class MapFragment : Fragment() {
         var texto : CharSequence = parent.buscarDados("titulo" , i) as CharSequence
         println(texto)
         //linha 75 n cumpre a sua função
-        view?.findViewById<TextView>(R.id.TextoPin)?.text = texto
+
+        //view?.findViewById<TextView>(R.id.TextoPin)?.text = texto
+
         startMarker.position = point
         startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        startMarker.infoWindow = MarkerWindow(map, parent)
+        var markerWindow:MarkerWindow =  MarkerWindow(map, parent)
+        markerWindow.setText(texto.toString())
+        startMarker.infoWindow = markerWindow
+        startMarker.infoWindow
         map.overlays.add(startMarker)
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
@@ -102,6 +108,11 @@ class MapFragment : Fragment() {
         }
         override fun onClose() {
 // para usar caso seja necessário
+        }
+
+        fun setText(txt:String) {
+            var txtView = mView.findViewById<TextView>(R.id.TextoPin)
+            txtView.setText(txt)
         }
     }
 
