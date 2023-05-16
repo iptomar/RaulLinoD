@@ -23,12 +23,10 @@ class PagInicialFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View {
         val pagInicialViewModel =
-                ViewModelProvider(this).get(PagInicialViewModel::class.java)
+            ViewModelProvider(this)[PagInicialViewModel::class.java]
 
         _binding = FragmentPaginicialBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
         pagInicialViewModel.text.observe(viewLifecycleOwner) {
         }
         return root
