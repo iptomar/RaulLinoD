@@ -17,6 +17,8 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import android.widget.Toast
 import androidx.core.content.ContextCompat
@@ -32,6 +34,8 @@ import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import org.osmdroid.views.overlay.compass.CompassOverlay
+import org.osmdroid.views.overlay.infowindow.InfoWindow
+import org.osmdroid.views.overlay.infowindow.InfoWindow.closeAllInfoWindowsOn
 
 class MapFragment : Fragment(), LocationListener {
 
@@ -51,6 +55,7 @@ class MapFragment : Fragment(), LocationListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
+        ViewModelProvider(this).get(MapViewModel::class.java)
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
@@ -80,8 +85,14 @@ class MapFragment : Fragment(), LocationListener {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
             val startMarker = Marker(map)
+            var texto : CharSequence = parent.buscarDados("titulo" , i) as CharSequence
+            println(texto)
             startMarker.position = point
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
+            var markerWindow:MarkerWindow =  MarkerWindow(map, parent)
+            markerWindow.setText(texto.toString())
+            startMarker.infoWindow = markerWindow
+            startMarker.infoWindow
             val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
           val dr: Drawable = BitmapDrawable(
             resources,
@@ -121,7 +132,31 @@ class MapFragment : Fragment(), LocationListener {
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
+
         return root
+    }
+
+    class MarkerWindow: InfoWindow {
+        private lateinit var parent: MainActivity
+        constructor(mapView: MapView, parent: MainActivity):super(R.layout.info_window, mapView) {
+            this.parent = parent
+        }
+        override fun onOpen(item: Any?) {
+            closeAllInfoWindowsOn(mapView)
+            val texto = mView.findViewById<TextView>(R.id.TextoPin)
+
+            texto.setOnClickListener {
+                close()
+            }
+        }
+        override fun onClose() {
+// para usar caso seja necessário
+        }
+
+        fun setText(txt:String) {
+            var txtView = mView.findViewById<TextView>(R.id.TextoPin)
+            txtView.setText(txt)
+        }
     }
 
     override fun onDestroyView() {
