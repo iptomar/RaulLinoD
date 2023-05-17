@@ -91,7 +91,6 @@ class MapFragment : Fragment(), LocationListener {
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
             val startMarker = Marker(map)
             var texto : CharSequence = parent.buscarDados("titulo" , i) as CharSequence
-            println(texto)
             startMarker.position = point
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
             var markerWindow:MarkerWindow =  MarkerWindow(map, parent,i,navController)
@@ -104,8 +103,8 @@ class MapFragment : Fragment(), LocationListener {
             bitmap?.let {
                 Bitmap.createScaledBitmap(
                      it,
-                     (48.0f * resources.displayMetrics.density).toInt(),
-                     (48.0f * resources.displayMetrics.density).toInt(),
+                     (60.0f * resources.displayMetrics.density).toInt(),
+                     (60.0f * resources.displayMetrics.density).toInt(),
                      true
                     )
                 }
@@ -119,7 +118,7 @@ class MapFragment : Fragment(), LocationListener {
 
         }
         Handler(Looper.getMainLooper()).postDelayed({
-            map.controller.setCenter(point)
+            //map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
 
         return root
@@ -163,7 +162,9 @@ class MapFragment : Fragment(), LocationListener {
         val point = GeoPoint(location.latitude, location.longitude)
         userMarker.position = point
         map.overlays.add(userMarker)
+        Handler(Looper.getMainLooper()).postDelayed({
         map.controller.setCenter(point)
+        }, 1000)
     }
 
     override fun onRequestPermissionsResult(
