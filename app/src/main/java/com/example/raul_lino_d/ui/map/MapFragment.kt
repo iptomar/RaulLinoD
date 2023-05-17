@@ -23,6 +23,8 @@ import androidx.core.content.res.ResourcesCompat
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
 import com.example.raul_lino_d.databinding.FragmentMapBinding
@@ -49,13 +51,16 @@ class MapFragment : Fragment(), LocationListener {
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        ViewModelProvider(this).get(MapViewModel::class.java)
+        // Get the NavController
+        navController = NavHostFragment.findNavController(this)
+       // ViewModelProvider(this).get(MapViewModel::class.java)
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
@@ -89,7 +94,7 @@ class MapFragment : Fragment(), LocationListener {
             println(texto)
             startMarker.position = point
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            var markerWindow:MarkerWindow =  MarkerWindow(map, parent)
+            var markerWindow:MarkerWindow =  MarkerWindow(map, parent,i,navController)
             markerWindow.setText(texto.toString())
             startMarker.infoWindow = markerWindow
             startMarker.infoWindow
@@ -109,25 +114,9 @@ class MapFragment : Fragment(), LocationListener {
             map.overlays.add(startMarker)
             map.invalidate()
             //clicar no pino
-            startMarker.setOnMarkerClickListener { marker, mapView ->
-                // Create a new instance of your fragment
-                val fragment = HistoryFragment()
-                val args = Bundle()
-                args.putInt("id", i)
-                fragment.arguments = args
-                //para nao dar erro ao clicar nos botões
-                val transaction =
-                    parentFragmentManager.beginTransaction() // começa uma transação do FragmentManager
-                transaction.replace(
-                    R.id.nav_host_fragment_activity_main,
-                    fragment
-                ) // substitui o fragment atual pelo novo fragment
-                transaction.setReorderingAllowed(true) // permite que o back stack seja restaurado como uma operação atômica (é necessário para usar addToBackStack)
-                transaction.addToBackStack(null) // adiciona a transação ao back stack, com um nome nulo
-                transaction.commit() // confirma a transação
-                // Return true to indicate that the click event has been handled
-                true
-            }
+
+
+
         }
         Handler(Looper.getMainLooper()).postDelayed({
             map.controller.setCenter(point)
@@ -136,29 +125,35 @@ class MapFragment : Fragment(), LocationListener {
         return root
     }
 
-    class MarkerWindow: InfoWindow {
-        private lateinit var parent: MainActivity
-        constructor(mapView: MapView, parent: MainActivity):super(R.layout.info_window, mapView) {
-            this.parent = parent
-        }
+    class MarkerWindow(
+        mapView: MapView,
+        private val parent: MainActivity,
+        private val fragmentId: Int,
+        private val navController: NavController
+
+    ) : InfoWindow(R.layout.info_window, mapView) {
+
         override fun onOpen(item: Any?) {
             closeAllInfoWindowsOn(mapView)
             val texto = mView.findViewById<TextView>(R.id.TextoPin)
 
             texto.setOnClickListener {
                 close()
+                val fragment = HistoryFragment()
+                val args = Bundle()
+                args.putInt("id", fragmentId)
+                fragment.arguments = args
+                navController.navigate(R.id.navigation_history, args)
             }
         }
         override fun onClose() {
-// para usar caso seja necessário
         }
 
-        fun setText(txt:String) {
-            var txtView = mView.findViewById<TextView>(R.id.TextoPin)
-            txtView.setText(txt)
+        fun setText(txt: String) {
+            val txtView = mView.findViewById<TextView>(R.id.TextoPin)
+            txtView.text = txt
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
