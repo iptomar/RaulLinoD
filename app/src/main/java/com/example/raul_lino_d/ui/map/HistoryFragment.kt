@@ -1,5 +1,7 @@
 package com.example.raul_lino_d.ui.map
 
+import ViewPageAdapter
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,93 +11,93 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import androidx.viewpager.widget.ViewPager
 import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
+import java.io.IOException
+import java.io.InputStream
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HistoryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class HistoryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    private lateinit var imageIV: ImageView // declare ImageView variable
-    private lateinit var titleText: TextView // declare TextView variable
-    private lateinit var desc: TextView // declare TextView variable
+    private lateinit var titleText: TextView
+    private lateinit var desc: TextView
     private lateinit var parent: MainActivity
-
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
+    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?,
+        savedInstanceState: Bundle?
     ): View? {
-
-
-
-
-
-
-
-
-
-        // Inflate the layout for this fragment
+        navController = NavHostFragment.findNavController(this)
         val view = inflater.inflate(R.layout.fragment_history, container, false)
-        imageIV = view.findViewById(R.id.imageView) // find ImageView by ID from the inflated view
-        titleText = view.findViewById(R.id.text_history_title) // find TextView by ID from the inflated view
-        desc= view.findViewById(R.id.text_dashboard4)
 
+        titleText = view.findViewById(R.id.text_history_title)
+        desc = view.findViewById(R.id.text_dashboard4)
         parent = (activity as MainActivity).getMain()
-
 
         val myButton = view.findViewById<ImageButton>(R.id.my_button)
         myButton.setOnClickListener {
-            requireActivity().supportFragmentManager.popBackStack()
+            navController.navigate(R.id.navigation_map)
         }
 
-        //get cache id of building
-        val value = arguments!!.getInt("id")
-        val folderNumber = "folder_${value}"
-        val imgNumber = "img_${value}"
-        val imgFilePath = "images/${folderNumber}/${imgNumber}0.jpg"
-        val imgInputStream = requireContext().assets.open(imgFilePath)
+        //referenciar o viewpager para mais tarde levar o adapter
+        val viewPager = view.findViewById<ViewPager>(R.id.ViewPager)
+        //referenciar a cache
+        val value = arguments?.getInt("id") ?: 0
+        //número da pasta do respetivo edificio
+        val folderNumber = "folder_$value"
 
+        val imgNumbers = mutableListOf<String>()
+        var i = 0
+        var imgFilePath: String
+        var imgInputStream: InputStream?
 
-        var titulo : String = value?.let { parent.buscarDados("titulo" , it) } as String
-        var descricao : String = value?.let { parent.buscarDados("info" , it) } as String
+        //loop para cada pasta de imagens
+        do {
+            //nome da imagem
+            val imgNumber = "img_${value}${i}"
+            //nome da pasta
+            imgFilePath = "images/$folderNumber/$imgNumber.jpg"
+            imgInputStream = try {
+                requireContext().assets.open(imgFilePath)
+            } catch (e: IOException) {
+                null
+            }
 
+            if (imgInputStream != null) {
+                imgNumbers.add(imgNumber)
+            }
+
+            i++
+        } while (imgInputStream != null)
+
+        val imageList = mutableListOf<Bitmap>()
+        imgNumbers.forEach { imgNumber ->
+            imgFilePath = "images/$folderNumber/$imgNumber.jpg"
+            imgInputStream = requireContext().assets.open(imgFilePath)
+
+            val imgBitmap = BitmapFactory.decodeStream(imgInputStream)
+            //array de imgBitmap
+            imageList.add(imgBitmap)
+        }
+
+        //enviar o array para o adapter
+        val sliderAdapter = ViewPageAdapter(imageList)
+        //atribuir o adapter ao viewpagar
+        viewPager.adapter = sliderAdapter
+
+        val titulo: String = value.let { parent.buscarDados("titulo", it) } as String
+        val descricao: String = value.let { parent.buscarDados("info", it) } as String
 
         titleText.text = titulo
         desc.text = descricao
 
-
-        val imgBitmap = BitmapFactory.decodeStream(imgInputStream)
-
-        // on below line we are setting bitmap to our image view.
-        imageIV.setImageBitmap(imgBitmap)
         return view
     }
+
     fun myButtonClick(view: View) {
-        // Handle button click here
-        // For example, to go back to the map fragment:
         findNavController().popBackStack()
     }
-
-
 }
