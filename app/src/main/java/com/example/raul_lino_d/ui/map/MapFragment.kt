@@ -1,13 +1,12 @@
 package com.example.raul_lino_d.ui.map
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.graphics.drawable.ScaleDrawable
-import android.Manifest
-import android.content.Context
-import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -17,9 +16,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -29,15 +26,16 @@ import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
 import com.example.raul_lino_d.databinding.FragmentMapBinding
 import org.json.JSONArray
+import org.osmdroid.views.overlay.Marker
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-import org.osmdroid.views.overlay.Marker
+
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
-import org.osmdroid.views.overlay.infowindow.InfoWindow.closeAllInfoWindowsOn
+import org.osmdroid.views.overlay.Polyline
 
 class MapFragment : Fragment(), LocationListener {
 
@@ -47,6 +45,7 @@ class MapFragment : Fragment(), LocationListener {
     private lateinit var locationManager: LocationManager
     lateinit var userMarker: Marker
     lateinit var point: GeoPoint
+    lateinit var pointold: GeoPoint
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -86,6 +85,7 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(userMarker)
+
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
@@ -109,6 +109,10 @@ class MapFragment : Fragment(), LocationListener {
                     )
                 }
             )
+
+
+
+
             startMarker.icon = dr
             map.overlays.add(startMarker)
             map.invalidate()
@@ -116,10 +120,22 @@ class MapFragment : Fragment(), LocationListener {
 
 
 
+
         }
+
+
+
+
+
+
         Handler(Looper.getMainLooper()).postDelayed({
             //map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
+
+
+
+
+
 
         return root
     }
@@ -136,6 +152,7 @@ class MapFragment : Fragment(), LocationListener {
             closeAllInfoWindowsOn(mapView)
             val texto = mView.findViewById<TextView>(R.id.TextoPin)
 
+
             texto.setOnClickListener {
                 close()
                 val fragment = HistoryFragment()
@@ -145,12 +162,13 @@ class MapFragment : Fragment(), LocationListener {
                 navController.navigate(R.id.navigation_history, args)
             }
         }
-        override fun onClose() {
-        }
 
         fun setText(txt: String) {
             val txtView = mView.findViewById<TextView>(R.id.TextoPin)
             txtView.text = txt
+        }
+
+        override fun onClose() {
         }
     }
     override fun onDestroyView() {
@@ -181,4 +199,50 @@ class MapFragment : Fragment(), LocationListener {
             }
         }
     }
+
+    fun itinerario1(){
+        val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
+        for (j in 0 until dados.length()) {
+            val coor:JSONArray = dados.get(j) as JSONArray
+            val geoPoints = ArrayList<GeoPoint>();
+            if (j!=0) {
+                pointold = point
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                geoPoints.add(pointold)
+                geoPoints.add(point)
+                val line = Polyline()
+                line.setPoints(geoPoints);
+                map.overlays.add(line);
+                map.invalidate()
+            } else {
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+            }
+        }
+        Handler(Looper.getMainLooper()).postDelayed({
+            //map.controller.setCenter(point)
+        }, 1000)// espera 1 Segundo para centrar o mapa
+    }
+
+    fun itinerario2(){
+        val dados: JSONArray = parent.buscarDados("coordenadas", 19) as JSONArray
+        for (j in 0 until dados.length()) {
+            val coor:JSONArray = dados.get(j) as JSONArray
+            val geoPoints = ArrayList<GeoPoint>();
+            if (j!=0) {
+                pointold = point
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                geoPoints.add(pointold)
+                geoPoints.add(point)
+                val line = Polyline()
+                line.setPoints(geoPoints)
+                map.overlays.add(line)
+                map.invalidate()
+            } else {
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+            }
+        }
+
+
+    }
+
 }
