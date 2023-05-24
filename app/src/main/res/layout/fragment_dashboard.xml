@@ -16,7 +16,7 @@
             android:id="@+id/text_dashboard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             android:fontFamily="@font/raullinofonte"
             android:text="ITINERARIO"
             android:textAlignment="textStart"
@@ -26,7 +26,7 @@
             android:id="@+id/text_dashboard2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="100dp"
+            android:layout_marginStart="105dp"
             android:layout_marginEnd="8dp"
             android:fontFamily="@font/raullinofonte"
             android:text="RAUL LINO"
@@ -39,23 +39,23 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        android:layout_marginStart="35dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="35dp"
+        android:layout_marginEnd="30dp"
         android:background="#FFD683" />
 
     <TextView
         android:id="@+id/text_dashboard3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
+        android:layout_marginStart="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/raullinofonte"
         android:text="NOTA BIOGRÁFICA"
         android:textAlignment="textStart"
         android:textColor="#272133"
-        android:textSize="20sp" />
+        android:textSize="25sp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,7 +64,7 @@
             android:id="@+id/imageView"
             android:layout_width="210dp"
             android:layout_height="170dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             app:srcCompat="@drawable/raullino" />
 
         <TextView
@@ -91,7 +91,7 @@ Nascimento- 21 de Novembro de 1879 Lisboa            Morte- 13 de julho de 1974 
             android:id="@+id/text_dashboard5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="30dp"
             android:layout_marginEnd="20dp"
             android:fontFamily="sans-serif"
             android:text="Foi uma personalidade única no que se refere ao panorama das artes em Portugal, muito devido ao facto de ter conseguido articular a tradição portuguesa com as inovadoras correntes europeias do início do séc.XX.[2]Com 70 anos de atividade profissional, Lino é autor de mais de 700 obras. Também é importante referir que apesar do seu leque de projetos, ele também foi um homem com uma vasta obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
