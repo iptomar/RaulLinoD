@@ -85,7 +85,12 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(userMarker)
-
+        binding.button.setOnClickListener {
+            itinerario1()
+        }
+        binding.button2.setOnClickListener {
+            itinerario2()
+        }
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)

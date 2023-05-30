@@ -71,7 +71,6 @@
         android:layout_height="wrap_content">
         <Button
             android:id="@+id/button"
-            android:onClick="itinerario1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -83,7 +82,6 @@
 
         <Button
             android:id="@+id/button2"
-            android:onClick="itinerario2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
