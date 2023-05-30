@@ -100,7 +100,7 @@ Nascimento- 21 de Novembro de 1879 Lisboa            Morte- 13 de julho de 1974 
             android:textFontWeight="500"
             android:textAlignment="textStart"
             android:textColor="#272133"
-            android:textSize="17sp" />
+            android:textSize="16sp" />
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="10dp"
