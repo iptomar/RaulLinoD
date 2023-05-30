@@ -22,15 +22,15 @@
             android:textAlignment="textStart"
             android:textColor="#272133"
             android:textSize="50sp" />
+
         <TextView
             android:id="@+id/text_dashboard2"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="105dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginEnd="35dp"
             android:fontFamily="@font/raullinofonte"
+            android:gravity="right"
             android:text="RAUL LINO"
-            android:textAlignment="textStart"
             android:textColor="#078C6B"
             android:textSize="25sp" />
 
@@ -59,8 +59,7 @@
 
     <org.osmdroid.views.MapView
         android:id="@+id/map"
-        android:layout_marginTop="10dp"
-        android:layout_marginStart="30dp"
+        android:layout_gravity="center"
         android:layout_width="350dp"
         android:layout_height="350dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,13 +67,14 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center">
         <Button
             android:id="@+id/button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginEnd="25dp"
             android:text="Itinerário 1"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,8 +84,7 @@
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="25dp"
             android:text="Itinerário 2"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
