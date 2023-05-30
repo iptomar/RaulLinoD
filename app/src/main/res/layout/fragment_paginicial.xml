@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.paginicial.PagInicialFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.paginicial.PagInicialFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/text_dashboard"
             android:layout_width="wrap_content"
@@ -22,6 +22,7 @@
             android:textAlignment="textStart"
             android:textColor="#272133"
             android:textSize="50sp" />
+
         <TextView
             android:id="@+id/text_dashboard2"
             android:layout_width="wrap_content"
@@ -33,7 +34,6 @@
             android:textAlignment="textStart"
             android:textColor="#078C6B"
             android:textSize="25sp" />
-
     </LinearLayout>
 
     <View
@@ -44,91 +44,105 @@
         android:layout_marginEnd="30dp"
         android:background="#FFD683" />
 
-    <TextView
-        android:id="@+id/text_dashboard3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/raullinofonte"
-        android:text="O INICIO"
-        android:textAlignment="textStart"
-        android:textColor="#272133"
-        android:textSize="25sp" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="115dp"
-        android:layout_height="115dp"
-        android:layout_marginStart="30dp"
-        app:srcCompat="@drawable/arco" />
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_marginBottom="150dp"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/text_dashboard4"
+            android:id="@+id/text_dashboard3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="sans-serif"
-            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
-            android:textFontWeight="500"
-            android:textAlignment="textStart"
-            android:textColor="#272133"
-            android:textSize="14sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
             android:layout_marginStart="30dp"
-            app:srcCompat="@drawable/vertical" />
-
-        <TextView
-            android:id="@+id/text_dashboard5"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="sans-serif"
-            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
-            android:textFontWeight="500"
-            android:textAlignment="textStart"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="O INICIO"
+            android:layout_gravity="left"
             android:textColor="#272133"
-            android:textSize="14sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="115dp"
-            android:layout_height="115dp"
-            android:layout_marginStart="30dp"
-            app:srcCompat="@drawable/janela" />
+            android:textSize="25sp" />
 
-        <TextView
-            android:id="@+id/text_dashboard6"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="20dp"
-            android:fontFamily="sans-serif"
-            android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
-            android:textFontWeight="500"
-            android:textAlignment="textStart"
-            android:textColor="#272133"
-            android:textSize="14sp" />
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_marginStart="30dp"
+                app:srcCompat="@drawable/arco" />
+
+            <TextView
+                android:id="@+id/text_dashboard4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif"
+                android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+                android:textAlignment="textStart"
+                android:textColor="#272133"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView2"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_marginStart="30dp"
+                app:srcCompat="@drawable/vertical" />
+
+            <TextView
+                android:id="@+id/text_dashboard5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif"
+                android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+                android:textAlignment="textStart"
+                android:textColor="#272133"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="115dp"
+                android:layout_height="115dp"
+                android:layout_marginStart="30dp"
+                app:srcCompat="@drawable/janela" />
+
+            <TextView
+                android:id="@+id/text_dashboard6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="20dp"
+                android:fontFamily="sans-serif"
+                android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+                android:textAlignment="textStart"
+                android:textColor="#272133"
+                android:textFontWeight="500"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
