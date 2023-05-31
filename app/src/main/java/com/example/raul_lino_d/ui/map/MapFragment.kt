@@ -220,6 +220,7 @@ class MapFragment : Fragment(), LocationListener {
         for (marker in markers) {
             val markerGeoPoint = marker.position
             if (geoPoints.contains(markerGeoPoint)) {
+
                 val bitmap: Bitmap? = if (showing) {
                     BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
                 } else {
@@ -237,8 +238,10 @@ class MapFragment : Fragment(), LocationListener {
                         )
                     }
                 )
-
+                //remover e voltar a adicionar o marker para aparecer por cima da rota
+                marker.remove(map)
                 marker.icon = drawable
+                map.overlays.add(marker)
             }
         }
         map.invalidate()
