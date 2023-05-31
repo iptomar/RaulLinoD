@@ -262,50 +262,75 @@ class MapFragment : Fragment(), LocationListener {
     }
 
 
+    private var itinerario1Visible = false
+    private var itinerario2Visible = false
 
-    fun itinerario1(){
-        val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
-        for (j in 0 until dados.length()) {
-            val coor:JSONArray = dados.get(j) as JSONArray
-            val geoPoints = ArrayList<GeoPoint>();
-            if (j!=0) {
-                pointold = point
-                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
-                geoPoints.add(pointold)
-                geoPoints.add(point)
-                val line = Polyline()
-                line.setPoints(geoPoints);
-                map.overlays.add(line);
-                map.invalidate()
-            } else {
-                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+    private val itinerario1Lines = ArrayList<Polyline>()
+    private val itinerario2Lines = ArrayList<Polyline>()
+
+    fun itinerario1() {
+        if (itinerario1Visible) {
+            // Remover as linhas do itinerário 1
+            for (line in itinerario1Lines) {
+                map.overlays.remove(line)
             }
+            map.invalidate()
+            itinerario1Visible = false
+        } else {
+            // Adicionar as linhas do itinerário 1
+            val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
+            for (j in 0 until dados.length()) {
+                val coor: JSONArray = dados.get(j) as JSONArray
+                val geoPoints = ArrayList<GeoPoint>()
+                if (j != 0) {
+                    pointold = point
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                    geoPoints.add(pointold)
+                    geoPoints.add(point)
+                    val line = Polyline()
+                    line.setPoints(geoPoints)
+                    itinerario1Lines.add(line) // Adicionar a linha à lista do itinerário 1
+                    map.overlays.add(line)
+                    map.invalidate()
+                } else {
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                }
+            }
+            itinerario1Visible = true
         }
-        Handler(Looper.getMainLooper()).postDelayed({
-            //map.controller.setCenter(point)
-        }, 1000)// espera 1 Segundo para centrar o mapa
     }
 
-    fun itinerario2(){
-        val dados: JSONArray = parent.buscarDados("coordenadas", 19) as JSONArray
-        for (j in 0 until dados.length()) {
-            val coor:JSONArray = dados.get(j) as JSONArray
-            val geoPoints = ArrayList<GeoPoint>();
-            if (j!=0) {
-                pointold = point
-                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
-                geoPoints.add(pointold)
-                geoPoints.add(point)
-                val line = Polyline()
-                line.setPoints(geoPoints)
-                map.overlays.add(line)
-                map.invalidate()
-            } else {
-                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+    fun itinerario2() {
+        if (itinerario2Visible) {
+            // Remover as linhas do itinerário 2
+            for (line in itinerario2Lines) {
+                map.overlays.remove(line)
             }
+            map.invalidate()
+            itinerario2Visible = false
+        } else {
+            // Adicionar as linhas do itinerário 2
+            val dados: JSONArray = parent.buscarDados("coordenadas", 19) as JSONArray
+            for (j in 0 until dados.length()) {
+                val coor: JSONArray = dados.get(j) as JSONArray
+                val geoPoints = ArrayList<GeoPoint>()
+                if (j != 0) {
+                    pointold = point
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                    geoPoints.add(pointold)
+                    geoPoints.add(point)
+                    val line = Polyline()
+                    line.setPoints(geoPoints)
+                    itinerario2Lines.add(line) // Adicionar a linha à lista do itinerário 2
+                    map.overlays.add(line)
+                    map.invalidate()
+                } else {
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                }
+            }
+            itinerario2Visible = true
         }
-
-
     }
+    
 
 }
