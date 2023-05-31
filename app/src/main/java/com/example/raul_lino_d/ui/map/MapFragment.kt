@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.location.Location
@@ -13,7 +14,6 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,16 +27,16 @@ import com.example.raul_lino_d.MainActivity
 import com.example.raul_lino_d.R
 import com.example.raul_lino_d.databinding.FragmentMapBinding
 import org.json.JSONArray
-import org.osmdroid.views.overlay.Marker
 import org.osmdroid.config.Configuration
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
-
+import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
-import org.osmdroid.views.overlay.Polyline
+import android.graphics.Paint
 import kotlin.math.log
 
 class MapFragment : Fragment(), LocationListener {
@@ -289,7 +289,8 @@ class MapFragment : Fragment(), LocationListener {
                     geoPoints.add(point)
                     val line = Polyline()
                     line.setPoints(geoPoints)
-                    itinerario1Lines.add(line) // Adicionar a linha à lista do itinerário 1
+                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
+                    itinerario1Lines.add(line) // Add the line to the itinerario1Lines list
                     map.overlays.add(line)
                     map.invalidate()
                 } else {
@@ -321,7 +322,8 @@ class MapFragment : Fragment(), LocationListener {
                     geoPoints.add(point)
                     val line = Polyline()
                     line.setPoints(geoPoints)
-                    itinerario2Lines.add(line) // Adicionar a linha à lista do itinerário 2
+                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
+                    itinerario2Lines.add(line) // Add the line to the itinerario1Lines list
                     map.overlays.add(line)
                     map.invalidate()
                 } else {
