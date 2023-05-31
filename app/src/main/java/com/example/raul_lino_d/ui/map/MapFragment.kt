@@ -13,6 +13,7 @@ import android.location.LocationManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,6 +37,7 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 import org.osmdroid.views.overlay.Polyline
+import kotlin.math.log
 
 class MapFragment : Fragment(), LocationListener {
 
@@ -46,11 +48,15 @@ class MapFragment : Fragment(), LocationListener {
     lateinit var userMarker: Marker
     lateinit var point: GeoPoint
     lateinit var pointold: GeoPoint
+    private val markersToPaint = mutableListOf<Marker>()
+    private var showing1 : Boolean = false
+    private var showing2 : Boolean = false
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var navController: NavController
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -63,6 +69,11 @@ class MapFragment : Fragment(), LocationListener {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
+
+        //definir as coordenadas de cada itinerario
+        val geoPoints1 = getGeoPoints(20).toMutableList() // Assign the returned list to geoPoints1
+        val geoPoints2 = getGeoPoints(21).toMutableList() // Assign the returned list to geoPoints2
+
         locationManager = parent.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if ((ContextCompat.checkSelfPermission(
                 parent,
@@ -85,12 +96,26 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(userMarker)
+
+
         binding.button.setOnClickListener {
+
             itinerario1()
+            //pinta os makers que são comuns ao itenerario 2
+            paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, showing1)
+            //permite voltar a pintar os makers de verde
+            showing1 = !showing1
         }
+
         binding.button2.setOnClickListener {
+
             itinerario2()
+            //pinta os makers que são comuns ao itenerario 2
+            paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, showing2)
+            //permite voltar a pintar os makers de verde
+            showing2 = !showing2
         }
+
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
@@ -102,6 +127,7 @@ class MapFragment : Fragment(), LocationListener {
             markerWindow.setText(texto.toString())
             startMarker.infoWindow = markerWindow
             startMarker.infoWindow
+            markersToPaint.add(startMarker)
             val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
           val dr: Drawable = BitmapDrawable(
             resources,
@@ -114,34 +140,15 @@ class MapFragment : Fragment(), LocationListener {
                     )
                 }
             )
-
-
-
-
             startMarker.icon = dr
             map.overlays.add(startMarker)
             map.invalidate()
             //clicar no pino
-
-
-
-
         }
-
-
-
-
-
 
         Handler(Looper.getMainLooper()).postDelayed({
             //map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
-
-
-
-
-
-
         return root
     }
 
@@ -204,6 +211,54 @@ class MapFragment : Fragment(), LocationListener {
             }
         }
     }
+
+
+
+    //permite alterar a cor dos marcadores de cada edíficio com base se este se econtra no itinerário escolhido ou não
+    fun paintMarkers(markers: MutableList<Marker>, geoPoints: ArrayList<GeoPoint>, showing: Boolean) {
+        //iterar todos os marcadores e verificar se estes se encontram na lista de marcadores do itinerário passado por parametro
+        for (marker in markers) {
+            val markerGeoPoint = marker.position
+            if (geoPoints.contains(markerGeoPoint)) {
+                val bitmap: Bitmap? = if (showing) {
+                    BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
+                } else {
+                    BitmapFactory.decodeResource(resources, R.drawable.localizao_amarela)
+                }
+
+                val drawable = BitmapDrawable(
+                    resources,
+                    bitmap?.let {
+                        Bitmap.createScaledBitmap(
+                            it,
+                            (60.0f * resources.displayMetrics.density).toInt(),
+                            (60.0f * resources.displayMetrics.density).toInt(),
+                            true
+                        )
+                    }
+                )
+
+                marker.icon = drawable
+            }
+        }
+        map.invalidate()
+    }
+
+    //vai buscar as coordenadas de cate itenarario com base no index
+    private fun getGeoPoints(index: Int): List<GeoPoint> {
+        val targetList = mutableListOf<GeoPoint>()
+        val dados: JSONArray = parent.buscarDados("coordenadas", index) as JSONArray
+        for (j in 0 until dados.length()) {
+            val c: JSONArray = dados.get(j) as JSONArray
+            val latitude = c.get(0) as Double
+            val longitude = c.get(1) as Double
+            val point = GeoPoint(latitude, longitude)
+            targetList.add(point)
+        }
+        return targetList
+    }
+
+
 
     fun itinerario1(){
         val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
