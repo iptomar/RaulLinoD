@@ -37,6 +37,7 @@ import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
 import android.graphics.Paint
+import android.util.Log
 import kotlin.math.log
 
 class MapFragment : Fragment(), LocationListener {
@@ -115,6 +116,8 @@ class MapFragment : Fragment(), LocationListener {
             //permite voltar a pintar os makers de verde
             showing2 = !showing2
         }
+
+        ListaHistIt(1)
 
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
@@ -333,6 +336,22 @@ class MapFragment : Fragment(), LocationListener {
             itinerario2Visible = true
         }
     }
-    
+
+    fun ListaHistIt(it :Int){
+        val dados: JSONArray = parent.buscarDados("ListaIdsIt1", it+21) as JSONArray
+        print("teste")
+            for (j in 0 until dados.length()) {
+                val id = dados.get(j)
+
+                val loc: String = parent.buscarDados("localizacao", id as Int) as String
+                val id1: String = parent.buscarDados("ano", id) as String
+
+                        Log.e("teste", loc)
+                 Log.e("teste",id1)
+                    }
+
+    }
 
 }
+    
+
