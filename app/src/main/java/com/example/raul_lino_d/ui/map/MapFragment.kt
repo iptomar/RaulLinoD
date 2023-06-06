@@ -96,23 +96,24 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(userMarker)
-
-
         binding.button.setOnClickListener {
-
             itinerario1()
             //pinta os makers que são comuns ao itenerario 2
             paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, showing1)
             //permite voltar a pintar os makers de verde
+            map.overlays.add(userMarker)
+            map.invalidate()
+            //volta a pintar o marcador do utilizador
             showing1 = !showing1
         }
-
         binding.button2.setOnClickListener {
-
             itinerario2()
             //pinta os makers que são comuns ao itenerario 2
             paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, showing2)
             //permite voltar a pintar os makers de verde
+            map.overlays.add(userMarker)
+            map.invalidate()
+            //volta a pintar o marcador do utilizador
             showing2 = !showing2
         }
 
@@ -145,9 +146,7 @@ class MapFragment : Fragment(), LocationListener {
             map.invalidate()
             //clicar no pino
         }
-
         Handler(Looper.getMainLooper()).postDelayed({
-            //map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
         return root
     }
@@ -163,8 +162,6 @@ class MapFragment : Fragment(), LocationListener {
         override fun onOpen(item: Any?) {
             closeAllInfoWindowsOn(mapView)
             val texto = mView.findViewById<TextView>(R.id.TextoPin)
-
-
             texto.setOnClickListener {
                 close()
                 val fragment = HistoryFragment()
@@ -211,8 +208,6 @@ class MapFragment : Fragment(), LocationListener {
             }
         }
     }
-
-
 
     //permite alterar a cor dos marcadores de cada edíficio com base se este se econtra no itinerário escolhido ou não
     fun paintMarkers(markers: MutableList<Marker>, geoPoints: ArrayList<GeoPoint>, showing: Boolean) {

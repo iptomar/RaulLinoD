@@ -1,4 +1,4 @@
-package com.example.raul_lino_d.ui.dashboard
+package com.example.raul_lino_d.ui.notabiografica
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
