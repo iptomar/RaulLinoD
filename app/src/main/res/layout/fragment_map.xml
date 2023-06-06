@@ -1,14 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="400dp"
-    tools:context=".ui.map.MapFragment">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.paginicial.PagInicialFragment">
 
-    <org.osmdroid.views.MapView
-        android:id="@+id/map"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:id="@+id/text_dashboard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="35dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="ITINERARIO"
+            android:textAlignment="textStart"
+            android:textColor="#272133"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/text_dashboard2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="35dp"
+            android:fontFamily="@font/raullinofonte"
+            android:gravity="right"
+            android:text="RAUL LINO"
+            android:textColor="#078C6B"
+            android:textSize="25sp" />
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="30dp"
+        android:background="#FFD683" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="150dp"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/text_dashboard3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="10dp"
+            android:fontFamily="@font/raullinofonte"
+            android:text="MAPA"
+            android:layout_gravity="left"
+            android:textColor="#272133"
+            android:textSize="25sp" />
+
+        <RelativeLayout
+            android:layout_width="350dp"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="190dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="#272133"/>
+
+            <ImageView
+                android:id="@+id/button"
+                android:translationZ="90dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="22dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/itinerario1" />
+
+            <ImageView
+                android:id="@+id/button2"
+                android:translationZ="90dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="81dp"
+                android:layout_marginEnd="8dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/itinerario2"/>
+
+            <ImageView
+                android:id="@+id/button3"
+                android:translationZ="90dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="132dp"
+                android:layout_marginEnd="2dp"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/icon_mapa_historia"/>
+            <org.osmdroid.views.MapView
+                android:id="@+id/map"
+                android:layout_width="350dp"
+                android:layout_height="350dp"
+                android:layout_gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </RelativeLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center">
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

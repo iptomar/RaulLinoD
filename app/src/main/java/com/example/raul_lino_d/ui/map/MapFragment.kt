@@ -1,13 +1,13 @@
 package com.example.raul_lino_d.ui.map
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.ScaleDrawable
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
@@ -17,9 +17,7 @@ import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import androidx.core.content.res.ResourcesCompat
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -35,9 +33,11 @@ import org.osmdroid.util.GeoPoint
 import org.osmdroid.views.CustomZoomButtonsController
 import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
+import org.osmdroid.views.overlay.Polyline
 import org.osmdroid.views.overlay.compass.CompassOverlay
 import org.osmdroid.views.overlay.infowindow.InfoWindow
-import org.osmdroid.views.overlay.infowindow.InfoWindow.closeAllInfoWindowsOn
+import android.graphics.Paint
+import kotlin.math.log
 
 class MapFragment : Fragment(), LocationListener {
 
@@ -47,11 +47,16 @@ class MapFragment : Fragment(), LocationListener {
     private lateinit var locationManager: LocationManager
     lateinit var userMarker: Marker
     lateinit var point: GeoPoint
+    lateinit var pointold: GeoPoint
+    private val markersToPaint = mutableListOf<Marker>()
+    private var showing1 : Boolean = false
+    private var showing2 : Boolean = false
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var navController: NavController
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,6 +69,11 @@ class MapFragment : Fragment(), LocationListener {
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
+
+        //definir as coordenadas de cada itinerario
+        val geoPoints1 = getGeoPoints(20).toMutableList() // Assign the returned list to geoPoints1
+        val geoPoints2 = getGeoPoints(21).toMutableList() // Assign the returned list to geoPoints2
+
         locationManager = parent.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if ((ContextCompat.checkSelfPermission(
                 parent,
@@ -86,6 +96,26 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         map.overlays.add(userMarker)
+
+
+        binding.button.setOnClickListener {
+
+            itinerario1()
+            //pinta os makers que são comuns ao itenerario 2
+            paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, showing1)
+            //permite voltar a pintar os makers de verde
+            showing1 = !showing1
+        }
+
+        binding.button2.setOnClickListener {
+
+            itinerario2()
+            //pinta os makers que são comuns ao itenerario 2
+            paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, showing2)
+            //permite voltar a pintar os makers de verde
+            showing2 = !showing2
+        }
+
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
@@ -97,6 +127,7 @@ class MapFragment : Fragment(), LocationListener {
             markerWindow.setText(texto.toString())
             startMarker.infoWindow = markerWindow
             startMarker.infoWindow
+            markersToPaint.add(startMarker)
             val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
           val dr: Drawable = BitmapDrawable(
             resources,
@@ -113,14 +144,11 @@ class MapFragment : Fragment(), LocationListener {
             map.overlays.add(startMarker)
             map.invalidate()
             //clicar no pino
-
-
-
         }
+
         Handler(Looper.getMainLooper()).postDelayed({
             //map.controller.setCenter(point)
         }, 1000)// espera 1 Segundo para centrar o mapa
-
         return root
     }
 
@@ -136,6 +164,7 @@ class MapFragment : Fragment(), LocationListener {
             closeAllInfoWindowsOn(mapView)
             val texto = mView.findViewById<TextView>(R.id.TextoPin)
 
+
             texto.setOnClickListener {
                 close()
                 val fragment = HistoryFragment()
@@ -145,12 +174,13 @@ class MapFragment : Fragment(), LocationListener {
                 navController.navigate(R.id.navigation_history, args)
             }
         }
-        override fun onClose() {
-        }
 
         fun setText(txt: String) {
             val txtView = mView.findViewById<TextView>(R.id.TextoPin)
             txtView.text = txt
+        }
+
+        override fun onClose() {
         }
     }
     override fun onDestroyView() {
@@ -181,4 +211,128 @@ class MapFragment : Fragment(), LocationListener {
             }
         }
     }
+
+
+
+    //permite alterar a cor dos marcadores de cada edíficio com base se este se econtra no itinerário escolhido ou não
+    fun paintMarkers(markers: MutableList<Marker>, geoPoints: ArrayList<GeoPoint>, showing: Boolean) {
+        //iterar todos os marcadores e verificar se estes se encontram na lista de marcadores do itinerário passado por parametro
+        for (marker in markers) {
+            val markerGeoPoint = marker.position
+            if (geoPoints.contains(markerGeoPoint)) {
+
+                val bitmap: Bitmap? = if (showing) {
+                    BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
+                } else {
+                    BitmapFactory.decodeResource(resources, R.drawable.localizao_amarela)
+                }
+
+                val drawable = BitmapDrawable(
+                    resources,
+                    bitmap?.let {
+                        Bitmap.createScaledBitmap(
+                            it,
+                            (60.0f * resources.displayMetrics.density).toInt(),
+                            (60.0f * resources.displayMetrics.density).toInt(),
+                            true
+                        )
+                    }
+                )
+                //remover e voltar a adicionar o marker para aparecer por cima da rota
+                marker.remove(map)
+                marker.icon = drawable
+                map.overlays.add(marker)
+            }
+        }
+        map.invalidate()
+    }
+
+    //vai buscar as coordenadas de cate itenarario com base no index
+    private fun getGeoPoints(index: Int): List<GeoPoint> {
+        val targetList = mutableListOf<GeoPoint>()
+        val dados: JSONArray = parent.buscarDados("coordenadas", index) as JSONArray
+        for (j in 0 until dados.length()) {
+            val c: JSONArray = dados.get(j) as JSONArray
+            val latitude = c.get(0) as Double
+            val longitude = c.get(1) as Double
+            val point = GeoPoint(latitude, longitude)
+            targetList.add(point)
+        }
+        return targetList
+    }
+
+
+    private var itinerario1Visible = false
+    private var itinerario2Visible = false
+
+    private val itinerario1Lines = ArrayList<Polyline>()
+    private val itinerario2Lines = ArrayList<Polyline>()
+
+    fun itinerario1() {
+        if (itinerario1Visible) {
+            // Remover as linhas do itinerário 1
+            for (line in itinerario1Lines) {
+                map.overlays.remove(line)
+            }
+            map.invalidate()
+            itinerario1Visible = false
+        } else {
+            // Adicionar as linhas do itinerário 1
+            val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
+            for (j in 0 until dados.length()) {
+                val coor: JSONArray = dados.get(j) as JSONArray
+                val geoPoints = ArrayList<GeoPoint>()
+                if (j != 0) {
+                    pointold = point
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                    geoPoints.add(pointold)
+                    geoPoints.add(point)
+                    val line = Polyline()
+                    line.setPoints(geoPoints)
+                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
+                    itinerario1Lines.add(line) // Add the line to the itinerario1Lines list
+                    map.overlays.add(line)
+                    map.invalidate()
+                } else {
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                }
+            }
+            itinerario1Visible = true
+        }
+    }
+
+    fun itinerario2() {
+        if (itinerario2Visible) {
+            // Remover as linhas do itinerário 2
+            for (line in itinerario2Lines) {
+                map.overlays.remove(line)
+            }
+            map.invalidate()
+            itinerario2Visible = false
+        } else {
+            // Adicionar as linhas do itinerário 2
+            val dados: JSONArray = parent.buscarDados("coordenadas", 19) as JSONArray
+            for (j in 0 until dados.length()) {
+                val coor: JSONArray = dados.get(j) as JSONArray
+                val geoPoints = ArrayList<GeoPoint>()
+                if (j != 0) {
+                    pointold = point
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                    geoPoints.add(pointold)
+                    geoPoints.add(point)
+                    val line = Polyline()
+                    line.setPoints(geoPoints)
+                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
+                    itinerario2Lines.add(line) // Add the line to the itinerario1Lines list
+                    map.overlays.add(line)
+                    map.invalidate()
+                } else {
+                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                }
+            }
+            itinerario2Visible = true
+        }
+    }
+    
+
 }
