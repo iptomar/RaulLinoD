@@ -39,6 +39,7 @@ import org.osmdroid.views.overlay.infowindow.InfoWindow
 import android.graphics.Paint
 import android.util.Log
 import kotlin.math.log
+import android.content.SharedPreferences
 
 class MapFragment : Fragment(), LocationListener {
 
@@ -50,8 +51,11 @@ class MapFragment : Fragment(), LocationListener {
     lateinit var point: GeoPoint
     lateinit var pointold: GeoPoint
     private val markersToPaint = mutableListOf<Marker>()
-    private var showing1 : Boolean = false
-    private var showing2 : Boolean = false
+    private var showing1: Boolean = false
+    private var showing2: Boolean = false
+
+    private var itinerarioSelecionado: Int = 0 // Valor inicial para nenhum itinerário selecionado
+
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -66,7 +70,7 @@ class MapFragment : Fragment(), LocationListener {
     ): View {
         // Get the NavController
         navController = NavHostFragment.findNavController(this)
-       // ViewModelProvider(this).get(MapViewModel::class.java)
+        // ViewModelProvider(this).get(MapViewModel::class.java)
         _binding = FragmentMapBinding.inflate(inflater, container, false)
         val root: View = binding.root
         parent = activity as MainActivity
@@ -74,6 +78,7 @@ class MapFragment : Fragment(), LocationListener {
         //definir as coordenadas de cada itinerario
         val geoPoints1 = getGeoPoints(20).toMutableList() // Assign the returned list to geoPoints1
         val geoPoints2 = getGeoPoints(21).toMutableList() // Assign the returned list to geoPoints2
+
 
         locationManager = parent.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if ((ContextCompat.checkSelfPermission(
@@ -117,29 +122,34 @@ class MapFragment : Fragment(), LocationListener {
             showing2 = !showing2
         }
 
-        ListaHistIt(1)
+
+        binding.button3.setOnClickListener {
+            enviarCacheItinerarioSelecionado()
+        }
+
 
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
             point = GeoPoint(dados.get(0) as Double, dados.get(1) as Double)
             val startMarker = Marker(map)
-            var texto : CharSequence = parent.buscarDados("titulo" , i) as CharSequence
+            var texto: CharSequence = parent.buscarDados("titulo", i) as CharSequence
             startMarker.position = point
             startMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-            var markerWindow:MarkerWindow =  MarkerWindow(map, parent,i,navController)
+            var markerWindow: MarkerWindow = MarkerWindow(map, parent, i, navController)
             markerWindow.setText(texto.toString())
             startMarker.infoWindow = markerWindow
             startMarker.infoWindow
             markersToPaint.add(startMarker)
-            val bitmap: Bitmap? = BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
-          val dr: Drawable = BitmapDrawable(
-            resources,
-            bitmap?.let {
-                Bitmap.createScaledBitmap(
-                     it,
-                     (60.0f * resources.displayMetrics.density).toInt(),
-                     (60.0f * resources.displayMetrics.density).toInt(),
-                     true
+            val bitmap: Bitmap? =
+                BitmapFactory.decodeResource(resources, R.drawable.localizao_verde)
+            val dr: Drawable = BitmapDrawable(
+                resources,
+                bitmap?.let {
+                    Bitmap.createScaledBitmap(
+                        it,
+                        (60.0f * resources.displayMetrics.density).toInt(),
+                        (60.0f * resources.displayMetrics.density).toInt(),
+                        true
                     )
                 }
             )
@@ -186,6 +196,7 @@ class MapFragment : Fragment(), LocationListener {
         override fun onClose() {
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
@@ -196,7 +207,7 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.position = point
         map.overlays.add(userMarker)
         Handler(Looper.getMainLooper()).postDelayed({
-        map.controller.setCenter(point)
+            map.controller.setCenter(point)
         }, 1000)
     }
 
@@ -216,9 +227,12 @@ class MapFragment : Fragment(), LocationListener {
     }
 
 
-
     //permite alterar a cor dos marcadores de cada edíficio com base se este se econtra no itinerário escolhido ou não
-    fun paintMarkers(markers: MutableList<Marker>, geoPoints: ArrayList<GeoPoint>, showing: Boolean) {
+    fun paintMarkers(
+        markers: MutableList<Marker>,
+        geoPoints: ArrayList<GeoPoint>,
+        showing: Boolean
+    ) {
         //iterar todos os marcadores e verificar se estes se encontram na lista de marcadores do itinerário passado por parametro
         for (marker in markers) {
             val markerGeoPoint = marker.position
@@ -271,38 +285,45 @@ class MapFragment : Fragment(), LocationListener {
     private val itinerario1Lines = ArrayList<Polyline>()
     private val itinerario2Lines = ArrayList<Polyline>()
 
-    fun itinerario1() {
-        if (itinerario1Visible) {
-            // Remover as linhas do itinerário 1
-            for (line in itinerario1Lines) {
-                map.overlays.remove(line)
-            }
-            map.invalidate()
-            itinerario1Visible = false
-        } else {
-            // Adicionar as linhas do itinerário 1
-            val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
-            for (j in 0 until dados.length()) {
-                val coor: JSONArray = dados.get(j) as JSONArray
-                val geoPoints = ArrayList<GeoPoint>()
-                if (j != 0) {
-                    pointold = point
-                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
-                    geoPoints.add(pointold)
-                    geoPoints.add(point)
-                    val line = Polyline()
-                    line.setPoints(geoPoints)
-                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
-                    itinerario1Lines.add(line) // Add the line to the itinerario1Lines list
-                    map.overlays.add(line)
-                    map.invalidate()
-                } else {
-                    point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
-                }
-            }
-            itinerario1Visible = true
+
+
+
+fun itinerario1() {
+    if (itinerario1Visible) {
+        // Remover as linhas do itinerário 1
+        for (line in itinerario1Lines) {
+            map.overlays.remove(line)
         }
+        map.invalidate()
+        itinerario1Visible = false
+        itinerarioSelecionado = if (itinerario2Visible) 3 else 0 // Atualizar o valor do itinerário selecionado
+    } else {
+        // Adicionar as linhas do itinerário 1
+        val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
+        for (j in 0 until dados.length()) {
+            val coor: JSONArray = dados.get(j) as JSONArray
+            val geoPoints = ArrayList<GeoPoint>()
+            if (j != 0) {
+                pointold = point
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+                geoPoints.add(pointold)
+                geoPoints.add(point)
+                val line = Polyline()
+                line.setPoints(geoPoints)
+                line.color =
+                    Color.rgb(250, 171, 30) // Set the color directly on the Polyline object
+                itinerario1Lines.add(line) // Add the line to the itinerario1Lines list
+                map.overlays.add(line)
+                map.invalidate()
+            } else {
+                point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
+            }
+        }
+        itinerario1Visible = true
+        itinerario2Visible = false // Desmarcar itinerário 2 se estiver selecionado
+        itinerarioSelecionado = if (itinerario2Visible) 3 else 1 // Atualizar o valor do itinerário selecionado
     }
+}
 
     fun itinerario2() {
         if (itinerario2Visible) {
@@ -312,6 +333,7 @@ class MapFragment : Fragment(), LocationListener {
             }
             map.invalidate()
             itinerario2Visible = false
+            itinerarioSelecionado = if (itinerario1Visible) 3 else 0 // Atualizar o valor do itinerário selecionado
         } else {
             // Adicionar as linhas do itinerário 2
             val dados: JSONArray = parent.buscarDados("coordenadas", 19) as JSONArray
@@ -325,33 +347,39 @@ class MapFragment : Fragment(), LocationListener {
                     geoPoints.add(point)
                     val line = Polyline()
                     line.setPoints(geoPoints)
-                    line.color = Color.rgb(250,171,30)// Set the color directly on the Polyline object
-                    itinerario2Lines.add(line) // Add the line to the itinerario1Lines list
+                    line.color =
+                        Color.rgb(250, 171, 30) // Set the color directly on the Polyline object
+                    itinerario2Lines.add(line) // Add the line to the itinerario2Lines list
                     map.overlays.add(line)
                     map.invalidate()
                 } else {
                     point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
                 }
             }
+            itinerario1Visible = false // Desmarcar itinerário 1 se estiver selecionado
             itinerario2Visible = true
+            itinerarioSelecionado = if (itinerario1Visible) 3 else 2 // Atualizar o valor do itinerário selecionado
         }
     }
 
-    fun ListaHistIt(it :Int){
-        val dados: JSONArray = parent.buscarDados("ListaIdsIt1", it+21) as JSONArray
-        print("teste")
-            for (j in 0 until dados.length()) {
-                val id = dados.get(j)
-
-                val loc: String = parent.buscarDados("localizacao", id as Int) as String
-                val id1: String = parent.buscarDados("ano", id) as String
-
-                        Log.e("teste", loc)
-                 Log.e("teste",id1)
-                    }
-
+    /**
+     * Enviar os dados de cache do itinerário selecionado.
+     *
+     * Verifica se o itinerário selecionado é o 1 ou o 2 e, em caso afirmativo, redireciona
+     * para o ecra de destino, enviado os dados de cache correspondentes.
+     */
+    fun enviarCacheItinerarioSelecionado() {
+        // Verificar se o itinerário selecionado é o 1 ou o 2
+        if (itinerarioSelecionado == 1 || itinerarioSelecionado == 2) {
+            // Criar um Bundle para armazenar os dados a serem enviados
+            val bundle = Bundle()
+            // Adicionar o valor do itinerário selecionado ao Bundle
+            bundle.putInt("itinerario", itinerarioSelecionado)
+            // Redireciona para o ecra de destino (R.id.navigation_list) passando o Bundle como parâmetro
+            navController.navigate(R.id.navigation_list, bundle)
+            Log.e("MapFragment", "Valor do itinerario: $itinerarioSelecionado") //Apenas testes depois apagar
+        }
     }
 
 }
-    
 
