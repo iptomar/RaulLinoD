@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.example.raul_lino_d.databinding.FragmentPaginicialBinding
 
 class PagInicialFragment : Fragment() {
@@ -18,18 +16,12 @@ class PagInicialFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        val pagInicialViewModel =
-            ViewModelProvider(this)[PagInicialViewModel::class.java]
-
         _binding = FragmentPaginicialBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-        pagInicialViewModel.text.observe(viewLifecycleOwner) {
-        }
-        return root
+        return binding.root
     }
 
     override fun onDestroyView() {

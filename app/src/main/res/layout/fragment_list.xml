@@ -58,14 +58,15 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="448dp"
         android:layout_marginStart="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="30dp"
-        android:paddingEnd="5dp"
         android:background="@color/cream"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:paddingEnd="5dp"
+        tools:ignore="RtlSymmetry">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -77,7 +78,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:ignore="RelativeOverlap">
 
                 <TextView
                     android:id="@+id/text_history_title"
@@ -85,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
                     android:fontFamily="@font/raullinofonte"
-                    android:text="teste"
+                    android:text=""
                     android:textAlignment="textStart"
                     android:textColor="#272133"
                     android:textSize="20sp" />
@@ -96,9 +98,9 @@
                 android:id="@+id/my_button"
                 android:layout_width="40dp"
                 android:layout_height="60dp"
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="8dp"
-                android:layout_alignParentEnd="true"
                 android:background="@null"
                 android:contentDescription="Botão para apagar"
                 android:scaleType="fitCenter"
@@ -106,37 +108,29 @@
 
         </RelativeLayout>
 
-
-
-        <!--view pager for displaying our slides-->
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/ViewPager"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="250dp" />
-
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_marginTop="15dp"
+            android:layout_height="309dp"
             android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="20dp"
-            android:layout_height="150dp"
-            >
+            android:background="#000000">
 
             <TextView
                 android:id="@+id/text_dashboard4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
+                android:text="2022 - Tomar"
                 android:textAlignment="textStart"
-                android:textColor="#272133"
+                android:textColor="#FFFFFF"
                 android:textFontWeight="500"
                 android:textSize="14sp"
-                tools:ignore="ExtraText,HardcodedText" />
+                tools:ignore="ExtraText" />
 
         </ScrollView>
+
+
 
 
     </LinearLayout>

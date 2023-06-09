@@ -4,10 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.raul_lino_d.databinding.FragmentBiographyBinding
+import com.example.raul_lino_d.databinding.FragmentDashboardBinding
 
 class BiographyFragment : Fragment() {
 
@@ -18,20 +16,12 @@ class BiographyFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View {
-        val BiographyViewModel =
-                ViewModelProvider(this).get(BiographyViewModel::class.java)
-
-        _binding = FragmentBiographyBinding.inflate(inflater, container, false)
-        val root: View = binding.root
-
-        val textView: TextView = binding.textDashboard
-        BiographyViewModel.text.observe(viewLifecycleOwner) {
-        }
-        return root
+        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onDestroyView() {
