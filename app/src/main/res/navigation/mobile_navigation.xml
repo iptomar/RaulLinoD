@@ -13,7 +13,7 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.raul_lino_d.ui.dashboard.BiographyFragment"
+        android:name="com.example.raul_lino_d.ui.notabiografica.BiographyFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_dashboard" />
 

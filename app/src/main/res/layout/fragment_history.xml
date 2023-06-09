@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -117,7 +116,6 @@
             android:layout_width="match_parent"
             android:layout_height="250dp" />
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_marginTop="15dp"
@@ -129,14 +127,14 @@
             <TextView
                 android:id="@+id/text_dashboard4"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
                 android:text="Também é importante referir que apesar do seu leque obra teórica ou escrita, o que se tornou muito determinante, para os seus seguidores aos longo de décadas em Portugal."
                 android:textAlignment="textStart"
                 android:textColor="#272133"
                 android:textFontWeight="500"
                 android:textSize="14sp"
-                tools:ignore="ExtraText" />
+                tools:ignore="ExtraText,HardcodedText" />
 
         </ScrollView>
 

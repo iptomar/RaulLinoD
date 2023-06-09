@@ -1,3 +1,5 @@
+package com.example.raul_lino_d.ui
+
 import android.graphics.Bitmap
 import android.view.LayoutInflater
 import android.view.View
@@ -17,7 +19,8 @@ class ViewPageAdapter(private val imageList: List<Bitmap>) : PagerAdapter() {
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
-        val itemView = LayoutInflater.from(container.context).inflate(R.layout.img, container, false)
+        val itemView =
+            LayoutInflater.from(container.context).inflate(R.layout.img, container, false)
         val imageView = itemView.findViewById<ImageView>(R.id.imageView)
         val imageBitmap = imageList[position]
         imageView.setImageBitmap(imageBitmap)
