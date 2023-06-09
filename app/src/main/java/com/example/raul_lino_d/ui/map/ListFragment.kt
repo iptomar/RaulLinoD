@@ -78,7 +78,7 @@ class ListFragment : Fragment() {
      */
     private fun getLista(value: Int): String {
         // Determinar o nome do campo com base no valor do itinerário
-        val fieldName = if (value == 1) "ListaIdsIt1" else "ListaIdsIt2"
+        val fieldName = "ListaIdsIt$value"
         return listaHistIt(value, fieldName) // Obter a listaHistIt com base no campo e no valor do itinerário
 
     }

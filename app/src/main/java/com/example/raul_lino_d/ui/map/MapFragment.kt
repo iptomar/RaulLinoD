@@ -320,7 +320,6 @@ fun itinerario1() {
             }
         }
         itinerario1Visible = true
-        itinerario2Visible = false // Desmarcar itinerário 2 se estiver selecionado
         itinerarioSelecionado = if (itinerario2Visible) 3 else 1 // Atualizar o valor do itinerário selecionado
     }
 }
@@ -356,7 +355,6 @@ fun itinerario1() {
                     point = GeoPoint(coor.get(0) as Double, coor.get(1) as Double)
                 }
             }
-            itinerario1Visible = false // Desmarcar itinerário 1 se estiver selecionado
             itinerario2Visible = true
             itinerarioSelecionado = if (itinerario1Visible) 3 else 2 // Atualizar o valor do itinerário selecionado
         }
@@ -370,15 +368,12 @@ fun itinerario1() {
      */
     fun enviarCacheItinerarioSelecionado() {
         // Verificar se o itinerário selecionado é o 1 ou o 2
-        if (itinerarioSelecionado == 1 || itinerarioSelecionado == 2) {
-            // Criar um Bundle para armazenar os dados a serem enviados
-            val bundle = Bundle()
-            // Adicionar o valor do itinerário selecionado ao Bundle
-            bundle.putInt("itinerario", itinerarioSelecionado)
-            // Redireciona para o ecra de destino (R.id.navigation_list) passando o Bundle como parâmetro
-            navController.navigate(R.id.navigation_list, bundle)
-            Log.e("MapFragment", "Valor do itinerario: $itinerarioSelecionado") //Apenas testes depois apagar
-        }
+        // Criar um Bundle para armazenar os dados a serem enviados
+        val bundle = Bundle()
+        // Adicionar o valor do itinerário selecionado ao Bundle
+        bundle.putInt("itinerario", itinerarioSelecionado)
+        // Redireciona para o ecra de destino (R.id.navigation_list) passando o Bundle como parâmetro
+        navController.navigate(R.id.navigation_list, bundle)
     }
 
 }
