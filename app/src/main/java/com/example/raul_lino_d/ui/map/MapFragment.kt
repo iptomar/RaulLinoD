@@ -100,6 +100,9 @@ class MapFragment : Fragment(), LocationListener {
             //pinta os makers que são comuns ao itenerario 2
             paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, showing1)
             //permite voltar a pintar os makers de verde
+            map.overlays.add(userMarker)
+            map.invalidate()
+            //volta a pintar o marcador do utilizador
             showing1 = !showing1
         }
         binding.button2.setOnClickListener {
@@ -107,6 +110,9 @@ class MapFragment : Fragment(), LocationListener {
             //pinta os makers que são comuns ao itenerario 2
             paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, showing2)
             //permite voltar a pintar os makers de verde
+            map.overlays.add(userMarker)
+            map.invalidate()
+            //volta a pintar o marcador do utilizador
             showing2 = !showing2
         }
         binding.button3.setOnClickListener {
@@ -204,7 +210,6 @@ class MapFragment : Fragment(), LocationListener {
             }
         }
     }
-
 
     //permite alterar a cor dos marcadores de cada edíficio com base se este se econtra no itinerário escolhido ou não
     private fun paintMarkers(

@@ -9,7 +9,7 @@ import com.example.raul_lino_d.databinding.FragmentDashboardBinding
 
 class BiographyFragment : Fragment() {
 
-    private var _binding: FragmentDashboardBinding? = null
+    private var _binding: FragmentBiographyBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
