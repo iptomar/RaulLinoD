@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.raul_lino_d.databinding.FragmentDashboardBinding
+import com.example.raul_lino_d.databinding.FragmentBiographyBinding
 
 class BiographyFragment : Fragment() {
 
@@ -20,7 +20,7 @@ class BiographyFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        _binding = FragmentBiographyBinding.inflate(inflater, container, false)
         return binding.root
     }
 

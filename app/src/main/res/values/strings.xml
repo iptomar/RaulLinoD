@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Raul Lino</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_biography">Biography</string>
     <string name="title_map">Map</string>
     <string name="map">Map</string>
     <!-- TODO: Remove or change this placeholder text -->
