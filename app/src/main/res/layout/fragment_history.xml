@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.paginicial.PagInicialFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@color/white">
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -51,7 +53,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginEnd="8dp"
         android:fontFamily="@font/raullinofonte"
-        android:text="MAPA ITERATIVO - HISTÓRIA"
+        android:text="MAPA INTERATIVO - HISToRIA"
         android:textAlignment="textStart"
         android:textColor="#272133"
         android:textSize="25sp" />
