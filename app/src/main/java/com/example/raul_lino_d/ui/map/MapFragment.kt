@@ -94,12 +94,8 @@ class MapFragment : Fragment(), LocationListener {
         @Suppress("DEPRECATION")
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        point = GeoPoint(39.4637348, -8.2011832)
-        userMarker.position = point
-        map.overlays.add(userMarker)
-        //Handler(Looper.getMainLooper()).postDelayed({
-            map.controller.setCenter(point)
-        //}, 1000)
+        val pointInicial = GeoPoint(39.4637348, -8.2011832)
+        userMarker.position = pointInicial
         binding.button.setOnClickListener {
             itinerario1()
             //pinta os makers que são comuns ao itenerario 2
@@ -159,6 +155,10 @@ class MapFragment : Fragment(), LocationListener {
         repintar()
         paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, !showing1)
         paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, !showing2)
+        map.overlays.add(userMarker)
+        Handler(Looper.getMainLooper()).postDelayed({
+            map.controller.setCenter(pointInicial)
+        }, 1000)
         return root
     }
 
