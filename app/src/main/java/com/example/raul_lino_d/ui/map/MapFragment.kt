@@ -96,6 +96,9 @@ class MapFragment : Fragment(), LocationListener {
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
         val pointInicial = GeoPoint(39.4637348, -8.2011832)
         userMarker.position = pointInicial
+        val markerWindow = MarkerWindow(map, 100, navController)
+        markerWindow.setText("")
+        userMarker.infoWindow = markerWindow
         binding.button.setOnClickListener {
             itinerario1()
             //pinta os makers que são comuns ao itenerario 2
