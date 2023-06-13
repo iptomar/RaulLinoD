@@ -260,6 +260,14 @@ class MapFragment : Fragment(), LocationListener {
         return targetList
     }
 
+    /**
+     * funções itinerario1() e itinerario2()
+     * estas funcões são responsaveis por fazer a dinamização das cores das linhas dos itinerários
+     * elas verificam se as linhas estão visiveis:
+     * se sim remove as linhas
+     * se não pinta as linhas
+     */
+
     private fun itinerario1() {
         if (itinerario1Visible) {
             // Remover as linhas do itinerário 1
@@ -306,6 +314,12 @@ class MapFragment : Fragment(), LocationListener {
         navController.navigate(R.id.navigation_list, bundle)
     }
 
+
+    /**
+     * Funções pintarti1() e pintarit2()
+     * nestas funções vamos pintar linhas entre vários pontos já pré definidos no JSON.file
+     * estes pontos foram esolhidos especificamente de forma a poder criar um itinerario pelas ruas da cidade
+     */
     private fun pintarit1() {
         // Adicionar as linhas do itinerário 1
         val dados: JSONArray = parent.buscarDados("coordenadas", 18) as JSONArray
@@ -360,6 +374,7 @@ class MapFragment : Fragment(), LocationListener {
             if (itinerario1Visible) 3 else 2 // Atualizar o valor do itinerário selecionado
     }
 
+    //repinta os itinerarios
     private fun repintar() {
         if (itinerario1Visible) {
             pintarit1()
