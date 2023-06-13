@@ -94,7 +94,11 @@ class MapFragment : Fragment(), LocationListener {
         @Suppress("DEPRECATION")
         userMarker.icon = resources.getDrawable(R.drawable.ponto_preto)
         userMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_CENTER)
-        map.overlays.add(userMarker)
+        val pointInicial = GeoPoint(39.4637348, -8.2011832)
+        userMarker.position = pointInicial
+        val markerWindow = MarkerWindow(map, 100, navController)
+        markerWindow.setText("")
+        userMarker.infoWindow = markerWindow
         binding.button.setOnClickListener {
             itinerario1()
             //pinta os makers que são comuns ao itenerario 2
@@ -116,7 +120,11 @@ class MapFragment : Fragment(), LocationListener {
             showing2 = !showing2
         }
         binding.button3.setOnClickListener {
-            enviarCacheItinerarioSelecionado()
+            if (itinerarioSelecionado != 0) {
+                enviarCacheItinerarioSelecionado()
+            } else {
+                Toast.makeText(requireContext(), "Itinerário não selecionado", Toast.LENGTH_SHORT).show()
+            }
         }
         for (i in 1 until 18) {
             val dados: JSONArray = parent.buscarDados("coordenadas", i) as JSONArray
@@ -150,6 +158,10 @@ class MapFragment : Fragment(), LocationListener {
         repintar()
         paintMarkers(markersToPaint, geoPoints1 as ArrayList<GeoPoint>, !showing1)
         paintMarkers(markersToPaint, geoPoints2 as ArrayList<GeoPoint>, !showing2)
+        map.overlays.add(userMarker)
+        Handler(Looper.getMainLooper()).postDelayed({
+            map.controller.setCenter(pointInicial)
+        }, 1000)
         return root
     }
 

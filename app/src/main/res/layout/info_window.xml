@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:layout_marginStart="5dp"
-        android:text="Texto imutavel :("
+        android:text=""
         android:textColor="@color/black"
         />
     <Space
